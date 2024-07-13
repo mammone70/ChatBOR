@@ -1,7 +1,6 @@
 import 'dotenv/config'
 import { db } from './db'
 import { transcripts, transcript_chunks } from './schema'
-import fs from 'fs';
 import path from 'path';
 
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
@@ -31,37 +30,59 @@ async function main() {
         // where: (transcripts, { eq }) => eq(transcri.name, 'Pikachu'),
     })
 
-    if (transcript) {
-      console.log('Transcripts already seeded!')
-      return
-    }
+    // if (transcript) {
+    //   console.log('Transcripts already seeded!')
+    //   return
+    // }
   } catch (error) {
     console.error('Error checking if Transcripts exist in the database.')
     throw error
   }
 
-  const dir = "/home/mammone/Downloads/BOR-Transcripts/Hamson/test";
+  const dir = "/home/mammone/Downloads/BOR-Transcripts/Hamson";
 
   console.log("Seeding DB with transcripts from " + dir);
   
   const transcriptObjects : any[] = [];
+
+  //Map of filename to transcript objects
+  const transcriptMap = new Map();
 
   const directoryLoader = new DirectoryLoader(
     dir,
     {
       ".pdf": 
         (filePath: string) => {
-          transcriptObjects.push({
-            name: path.basename(filePath),    
-          });
-          return new PDFLoader(filePath)
+          const loader = new PDFLoader(filePath);
+          
+          //store each file name in transcript array
+          const newTransactionObject = { 
+            id : "",
+            name : path.basename(filePath),
+            totalPages: "",
+            transcript_chunks: [],
+          };
+
+          transcriptObjects.push(newTransactionObject);
+          transcriptMap.set(path.basename(filePath), newTransactionObject);
+          return loader;
         },
     }
   );
   
   const docs = await directoryLoader.load();  
   
-  console.log(transcriptObjects)
+  //insert all transcript objects into db
+  for(const transcriptObject of transcriptObjects) {
+    const dbTranscript = 
+      await db
+      .insert(transcripts)
+      .values({ name : transcriptObject.name })
+      .returning({ id : transcripts.id })
+    
+    transcriptObject.id = dbTranscript[0].id;
+  }
+
   //split pdf
   const splitter = new RecursiveCharacterTextSplitter({
       chunkSize: 200,
@@ -72,25 +93,29 @@ async function main() {
 
   for (const docChunk of splitDocs) {
 
-    // const embedding = await generateEmbedding(docChunk.pageContent);
-    // console.log(embedding);
-    
-    break;
+    //get transcript object
+    const transcriptObject = transcriptMap.get(path.basename(docChunk.metadata.source));
 
-    // await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
-    // const { embedding, ...p } = record
+    //This gets done for every chunk ... figure out how to only do once
+    transcriptObject["totalPages"] = docChunk.metadata.pdf.totalPages;
 
-    // Create the pokemon in the database
-    // const [pokemon] = await db.insert(pokemons).values(p).returning()
+    //set chunk metadata
+    const newChunkObject = {
+      pageNumber : docChunk.metadata.loc.pageNumber,
+      fromLine : docChunk.metadata.loc.lines.from,
+      toLine : docChunk.metadata.loc.lines.to,
+      content : formatTextForDatabase(docChunk.pageContent), 
+      transcriptId : transcriptObject.id,
+    }
 
-    // await db
-    //   .update(pokemons)
-    //   .set({
-    //     embedding,
-    //   })
-    //   .where(eq(pokemons.id, pokemon.id))
-
-    // console.log(`Added ${pokemon.number} ${pokemon.name}`)
+    //Generate and set embedding
+    const embedding = await generateEmbedding(docChunk.pageContent);
+    // transcriptObject["transcript_chunks"].push({...newChunkObject, embedding });    
+  
+    //insert transcript chunk with embedding
+    await db
+          .insert(transcript_chunks)
+          .values({...newChunkObject, embedding })
 
     // Uncomment the following lines if you want to generate the JSON file
     // fs.writeFileSync(
@@ -98,6 +123,7 @@ async function main() {
     //   JSON.stringify({ data }, null, 2),
     // );
   }
+
   console.log('DB Seeded Successfully!')
 }
 
@@ -127,4 +153,15 @@ function formatTextForEmbedding(_input: string) {
           .split('\n')
           .map(element =>  element.trim())
           .join(' ');
+}
+
+/***
+ * Takes input string, strips middle dot ("Georgian Comma")
+ * Trims each line before joining them all together
+ */
+function formatTextForDatabase(_input: string) {
+  return  _input.replaceAll('\u00B7', '')
+          .split('\n')
+          .map(element =>  element.trim())
+          .join('\n');
 }
