@@ -1,0 +1,1 @@
+ALTER TABLE "transcripts" ALTER COLUMN "total_pages" DROP NOT NULL;
