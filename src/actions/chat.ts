@@ -14,4 +14,9 @@ export const chat = async (values: z.infer<typeof ChatSchema>) => {
 
     console.log(message);
 
+    return { 
+        success: "Message received!",
+        message : message 
+    }
+
 }
