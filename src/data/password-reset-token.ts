@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db } from "@/drizzle/db";
 
 export const getPasswordResetTokenByToken = async (token: string) => {
     try {

@@ -52,7 +52,7 @@ export default function ChatInteraction() {
 
                     if(data?.success) {
                         // form.reset();
-                        setChatHistory(chatHistory + " " + data.message)
+                        setChatHistory(data.chunks);
                         setSuccess(data.success);
                     }
 
@@ -71,7 +71,7 @@ export default function ChatInteraction() {
                     <Badge variant="outline" className="absolute right-3 top-3">
                         Output
                     </Badge>
-                    <div className="flex-1">
+                    <div className="flex-1 overflow-y-auto">
                         {chatHistory}
                     </div>
                     <Form {...form}>

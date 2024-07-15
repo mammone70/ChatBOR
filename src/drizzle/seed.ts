@@ -6,7 +6,7 @@ import path from 'path';
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { OllamaEmbeddings} from "@langchain/community/embeddings/ollama";
+import { formatTextForDatabase, formatTextForEmbedding, generateEmbedding } from '@/lib/embed';
 
 // import { openai } from '../lib/openai'
 // import { embed } from 'ai'
@@ -19,10 +19,6 @@ if (!process.env.DATABASE_URL) {
   throw new Error('process.env.DATABASE_URL is not defined. Please set it.')
 }
 
-const embedder = new OllamaEmbeddings({
-  model: 'nomic-embed-text:latest',
-  baseUrl: "http://localhost:11434",
-});
 
 async function main() {
   try {
@@ -137,31 +133,3 @@ main()
     process.exit(1)
   })
 
-async function generateEmbedding(_input: string) {
-  const formattedInput = formatTextForEmbedding(_input);
-  const embedding = await embedder.embedQuery(formattedInput);
-  return embedding;
-}
-
-/***
- * Takes input string, strips middle dot ("Georgian Comma")
- * Removes newlines and replaces with spaces.
- * Trims each line before joining them all together
- */
-function formatTextForEmbedding(_input: string) {
-  return  _input.replaceAll('\u00B7', '')
-          .split('\n')
-          .map(element =>  element.trim())
-          .join(' ');
-}
-
-/***
- * Takes input string, strips middle dot ("Georgian Comma")
- * Trims each line before joining them all together
- */
-function formatTextForDatabase(_input: string) {
-  return  _input.replaceAll('\u00B7', '')
-          .split('\n')
-          .map(element =>  element.trim())
-          .join('\n');
-}

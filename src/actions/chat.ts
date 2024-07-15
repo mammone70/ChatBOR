@@ -1,5 +1,6 @@
 'use server'
 
+import { semanticSearchTranscripts } from "@/data/transcripts";
 import { ChatSchema } from "@/schemas";
 import * as z from "zod";
 
@@ -12,11 +13,11 @@ export const chat = async (values: z.infer<typeof ChatSchema>) => {
 
     const { message } = validateFields.data;
 
-    console.log(message);
+    const transcriptChunks = await semanticSearchTranscripts(message);
 
     return { 
         success: "Message received!",
-        message : message 
+        chunks : JSON.stringify(transcriptChunks),
     }
 
 }
