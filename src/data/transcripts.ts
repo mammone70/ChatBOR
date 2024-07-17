@@ -31,7 +31,7 @@ export async function semanticSearchTranscripts(query : string){
                     .leftJoin(transcripts, 
                         eq(transcripts.id, transcript_chunks.transcriptId)) 
                     .limit(10);
-
+        console.log(transcriptsWithChunk)
         return transcriptsWithChunk;
     }
     catch (error) {

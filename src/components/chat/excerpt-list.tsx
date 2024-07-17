@@ -5,7 +5,7 @@ import { ExcerptProps } from '@/components/chat/transcript-excerpts';
 import ExcerptListItem from './excerpt-list-item';
 
 interface ExcerptListProps {
-    excerpts: ExcerptProps[],
+    excerpts: ExcerptProps[] | null,
     setSelected(id : string) : void,
     selectedId : string | null,
 }
@@ -14,7 +14,7 @@ function ExcerptList(excerptListProps : ExcerptListProps) {
     return (
         <ScrollArea className="h-screen">
             <div className="flex flex-col gap-2 p-4 pt-0">
-                {excerptListProps.excerpts.map((excerpt) => (
+                {excerptListProps.excerpts!.map((excerpt) => (
                     <ExcerptListItem 
                         key={excerpt.chunkId}
                         excerpt={excerpt}

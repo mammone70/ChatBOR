@@ -6,7 +6,7 @@ import path from 'path';
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { formatTextForDatabase, formatTextForEmbedding, generateEmbedding } from '@/lib/embed';
+import { formatTextForDatabase, formatTextForEmbedding, generateEmbedding } from '../lib/embed';
 
 // import { openai } from '../lib/openai'
 // import { embed } from 'ai'
@@ -81,8 +81,8 @@ async function main() {
 
   //split pdf
   const splitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 200,
-      chunkOverlap: 10,
+      chunkSize: 2000,
+      chunkOverlap: 100,
   });
 
   const splitDocs = await splitter.splitDocuments(docs);

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils"
 
 interface ExcerptListItemProps {
     excerpt: ExcerptProps,
-    setSelected(id : string) : void,
+    setSelected(id : string | null) : void,
     selectedId : string | null,
 }
 
@@ -47,7 +47,7 @@ function ExcerptListItem(props : ExcerptListItemProps) {
                 <span>Lines {props.excerpt.fromLine} to {props.excerpt.toLine}</span>
             </div>
             <div className="line-clamp-2 text-xs text-muted-foreground">
-                {props.excerpt.content.substring(0, 300)}
+                {props.excerpt.content?.substring(0, 300)}
             </div>
             {/* {item.labels.length ? (
             <div className="flex items-center gap-2">
