@@ -173,10 +173,6 @@ function TranscriptExcerpts({
                     setExcerpts(data.chunks);
                     setSuccess(data.success);
                 }
-
-                // if(data?.twoFactor) {
-                //     setShowTwoFactor(true);
-                // }
             })
             .catch(() => setError("Something went wrong."));
     });
@@ -232,7 +228,7 @@ function TranscriptExcerpts({
                                       <FormControl>
                                           <Textarea
                                               {...field}
-                                              placeholder="Type your message here..."
+                                              placeholder="Type your search here..."
                                               className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0"
                                           />
                                       </FormControl>
