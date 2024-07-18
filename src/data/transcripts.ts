@@ -3,7 +3,11 @@ import { transcript_chunks, transcripts } from "@/drizzle/schema";
 import { generateEmbedding } from "@/lib/embed";
 import { cosineDistance, sql, gt, eq } from "drizzle-orm";
 
-export async function semanticSearchTranscripts(query : string){
+export async function semanticSearchTranscripts(
+    query : string,
+    minSimilarity : number = .5,
+    maxResults : number = 10
+){
     try {
         if (query.trim().length === 0) return [];
 
@@ -27,11 +31,11 @@ export async function semanticSearchTranscripts(query : string){
                         content : transcript_chunks.content,
                     })
                     .from(transcript_chunks)
-                    .where(gt(similarity, 0.5))
+                    .where(gt(similarity, minSimilarity))
                     .leftJoin(transcripts, 
                         eq(transcripts.id, transcript_chunks.transcriptId)) 
-                    .limit(10);
-        console.log(transcriptsWithChunk)
+                    .limit(maxResults);
+
         return transcriptsWithChunk;
     }
     catch (error) {

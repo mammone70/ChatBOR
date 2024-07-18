@@ -24,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod";
 import { useState, useTransition } from "react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { readStreamableValue } from "ai/rsc"
 
 export default function ChatInteraction() {
     const [isPending, startTransition] = useTransition();
@@ -38,30 +39,38 @@ export default function ChatInteraction() {
         },
     });
 
-    const onSubmit = (values: z.infer<typeof ChatSchema>) => {
+    const onSubmit = async (values: z.infer<typeof ChatSchema>) => {
         setError("");
         setSuccess("");
+        setChatHistory("");
+        
+        const { status } = await chat(values);
 
-        startTransition(() => {
-            chat(values)
-                .then((data) => {
-                    if(data?.error) {
-                        // form.reset();
-                        setError(data.error);
-                    }
+        for await (const chunk of readStreamableValue(status!)) {
+            // console.log(value);
+            setChatHistory((currentHistory) => `${currentHistory}${chunk}`);
+        }
+        
+        // startTransition(() => {
+        //     chat(values)
+        //         .then((data) => {
+        //             if(data?.error) {
+        //                 // form.reset();
+        //                 setError(data.error);
+        //             }
 
-                    if(data?.success) {
-                        // form.reset();
-                        setChatHistory(data.chunks);
-                        setSuccess(data.success);
-                    }
+        //             if(data?.success) {
+        //                 // form.reset();
+        //                 setChatHistory(data.chunks);
+        //                 setSuccess(data.success);
+        //             }
 
-                    // if(data?.twoFactor) {
-                    //     setShowTwoFactor(true);
-                    // }
-                })
-                .catch(() => setError("Something went wrong."));
-        });
+        //             // if(data?.twoFactor) {
+        //             //     setShowTwoFactor(true);
+        //             // }
+        //         })
+        //         .catch(() => setError("Something went wrong."));
+        // });
     };
 
     return (
