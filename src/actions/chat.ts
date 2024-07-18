@@ -7,12 +7,10 @@ import * as z from "zod";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { ChatOpenAI } from "@langchain/openai";
 import { createStreamableValue } from 'ai/rsc';
-// import { concat } from "@langchain/core/utils/stream";
-// import type { AIMessageChunk } from "@langchain/core/messages";
 
 const promptTemplate = PromptTemplate.fromTemplate(`Use the following pieces of context to answer the question at the end.
 If you don't know the answer, just say that you don't know, don't try to make up an answer.
-Keep the answer as concise as possible.
+Limit your answer to 3 paragraphs.
 
 {context}
 

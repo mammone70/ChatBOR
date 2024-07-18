@@ -14,11 +14,11 @@ export default async function Navbar() {
                 <Link href="/">
                     <h1 className="font-bold text-3xl">ChatBOR</h1>
                 </Link>
-                {/*{ session && */}
+                  { session && 
                     <div className="px-8 font-bold"> 
                         <NavMenu></NavMenu>
                     </div>
-                {/* } */}
+                }
             </div>
             <div className="container flex items-center gap-x-5 justify-end">
                 <ThemeToggle/>
