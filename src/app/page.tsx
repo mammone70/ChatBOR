@@ -21,7 +21,7 @@ export default function Home() {
             </h1>
 
             <p className="max-w-xl mx-auto mt-8 text-base lg:text-xl font-bold text-muted-foreground">
-              Semantically Search For Citations
+              Semantically Search For Excerpts
             </p>
           </div> 
           <div className="flex justify-center max-w-sm mx-auto mt-10">
