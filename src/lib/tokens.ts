@@ -56,9 +56,9 @@ export const generatePasswordResetToken = async (email: string) => {
             token,
             expires
         }
-    );
+    ).returning();
 
-    return passwordResetToken;
+    return passwordResetToken[0];
 }
 
 export const generateVerificationToken = async (email: string) => {
