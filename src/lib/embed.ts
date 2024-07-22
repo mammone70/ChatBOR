@@ -1,4 +1,5 @@
 import { OllamaEmbeddings} from "@langchain/community/embeddings/ollama";
+import { OpenAIEmbeddings } from "@langchain/openai";
 
 /***
  * Takes input string, strips middle dot ("Georgian Comma")
@@ -23,10 +24,21 @@ export function formatTextForDatabase(_input: string) {
             .join('\n');
 }
 
-export async function generateEmbedding(_input: string) {
+export async function generateOllamaEmbedding(_input: string) {
     const embedder = new OllamaEmbeddings({
         model: 'nomic-embed-text:latest',
         baseUrl: "http://localhost:11434",
+      });
+      
+    const formattedInput = formatTextForEmbedding(_input);
+    const embedding = await embedder.embedQuery(formattedInput);
+    return embedding;
+}
+
+export async function generateOpenAIEmbedding(_input: string) {
+    const embedder = new OpenAIEmbeddings({
+        model: 'text-embedding-3-large',
+        dimensions: 1024
       });
       
     const formattedInput = formatTextForEmbedding(_input);

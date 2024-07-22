@@ -51,7 +51,7 @@ export const transcript_chunks = pgTable('transcript_chunks',
         fromLine: integer('from_line').notNull(),    
         toLine: integer('to_line').notNull(),
         content: text('content').notNull(),    
-        embedding: vector('embedding', { dimensions: 768 }),
+        embedding: vector('embedding', { dimensions: 1024 }),
     },
     (table) => ({
         embeddingIndex: index().using(

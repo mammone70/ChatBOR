@@ -6,7 +6,10 @@ import path from 'path';
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { formatTextForDatabase, formatTextForEmbedding, generateEmbedding } from '../lib/embed';
+import { 
+  formatTextForDatabase, 
+  generateOpenAIEmbedding 
+} from '../lib/embed';
 
 // import { openai } from '../lib/openai'
 // import { embed } from 'ai'
@@ -105,7 +108,7 @@ async function main() {
     }
 
     //Generate and set embedding
-    const embedding = await generateEmbedding(docChunk.pageContent);
+    const embedding = await generateOpenAIEmbedding(docChunk.pageContent);
     // transcriptObject["transcript_chunks"].push({...newChunkObject, embedding });    
   
     //insert transcript chunk with embedding
