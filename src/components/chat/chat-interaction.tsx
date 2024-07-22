@@ -77,10 +77,10 @@ export default function ChatInteraction() {
         <div className="flex h-screen items-center justify-center">
             <main className="h-screen py-4 w-3/5">
                 <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/80 p-4 lg:col-span-2">
-                    <Badge variant="outline" className="absolute right-3 top-3">
+                    <Badge variant="outline" className="absolute right-3 top-3 border-primary">
                         Output
                     </Badge>
-                    <div className="flex-1 overflow-y-auto">
+                    <div className="flex-1 overflow-y-auto pt-5">
                         {chatHistory}
                     </div>
                     <Form {...form}>
