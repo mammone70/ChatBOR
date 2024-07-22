@@ -160,6 +160,19 @@ export const twoFactorTokens = pgTable(
     })
 )
 
+export const twoFactorConfirmations = pgTable(
+    "twoFactorConfirmations",
+    {
+        id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+        userId: text("userId")
+                .notNull()
+                .references(() => users.id, { onDelete: "cascade" }),
+    
+    }
+)
+
 export const authenticators = pgTable(
     "authenticator",
     {
