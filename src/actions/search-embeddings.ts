@@ -2,7 +2,6 @@
 
 import { semanticSearchTranscripts } from "@/data/transcripts";
 import { ChatSchema } from "@/schemas";
-import { NextResponse } from "next/server";
 import * as z from "zod";
 
 export const searchEmbeddings = async (values: z.infer<typeof ChatSchema>) => {
