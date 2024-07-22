@@ -1,6 +1,6 @@
 import { db } from "@/drizzle/db";
 import { transcript_chunks, transcripts } from "@/drizzle/schema";
-import { generateEmbedding } from "@/lib/embed";
+import { generateOpenAIEmbedding } from "@/lib/embed";
 import { cosineDistance, sql, gt, eq } from "drizzle-orm";
 
 export async function semanticSearchTranscripts(
@@ -11,7 +11,7 @@ export async function semanticSearchTranscripts(
     try {
         if (query.trim().length === 0) return [];
 
-        const embedding = await generateEmbedding(query)
+        const embedding = await generateOpenAIEmbedding(query)
         const vectorQuery = `[${embedding.join(',')}]`
 
         const similarity = sql<number>`1 - (${cosineDistance(
