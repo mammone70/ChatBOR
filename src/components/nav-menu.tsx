@@ -34,7 +34,7 @@ export default function NavMenu() {
                     <NavigationMenuItem key={index}>
                         <Link href={menuItem.path} legacyBehavior passHref>
                             <NavigationMenuLink 
-                                className={`text-primary font-bold text-xl p-1 ${pathName == menuItem.path ? "border rounded-md border-primary bg-accent pointer-events-none" : ""}`}>
+                                className={`text-primary font-bold text-xl p-1 ${pathName == menuItem.path ? "border rounded-md border-primary bg-muted/80 pointer-events-none" : ""}`}>
                                 {menuItem.text}
                             </NavigationMenuLink>
                         </Link>

@@ -19,6 +19,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
+import { newPassword } from "@/actions/new-password";
 // import { newPassword } from "@/actions/new-password";
 
 export const NewPasswordForm = () : any => {
@@ -41,12 +42,12 @@ export const NewPasswordForm = () : any => {
         setSuccess("");
 
         startTransition(() => {
-            // newPassword(values, token)
-            //     .then((data) => {
-            //         setError(data?.error);
-            //         setSuccess(data?.success);
-            //     });
-            console.log("Implement!")
+            newPassword(values, token)
+                .then((data) => {
+                    setError(data?.error);
+                    setSuccess(data?.success);
+                });
+            // console.log("Implement!")
         });
     };
 
