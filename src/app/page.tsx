@@ -22,10 +22,10 @@ export default async function Home() {
             </span>
 
             <h1 className="mt-8 text-3xl font-extrabold -tracking-tight lg:text-6xl">
-              Laugh At The Ineptitude 
+              Ask Questions About 
             </h1>
             <h1 className="mt-2 text-3xl font-extrabold -tracking-tight lg:text-6xl">
-              And Lack Of Integrity!!
+              The Hearing
             </h1>
 
             <p className="max-w-xl mx-auto mt-8 text-base lg:text-xl font-bold text-muted-foreground">
