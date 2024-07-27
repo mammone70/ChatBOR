@@ -6,10 +6,13 @@ import path from 'path';
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { loadSummarizationChain } from "langchain/chains";
+
 import { 
   formatTextForDatabase, 
   generateOpenAIEmbedding 
 } from '../lib/embed';
+import { ChatOpenAI } from '@langchain/openai';
 
 // import { openai } from '../lib/openai'
 // import { embed } from 'ai'
@@ -22,6 +25,23 @@ if (!process.env.DATABASE_URL) {
   throw new Error('process.env.DATABASE_URL is not defined. Please set it.')
 }
 
+//llm
+const llm = new ChatOpenAI({
+  temperature: 0.3,
+  model: "gpt-3.5-turbo-1106",
+  // In Node.js defaults to process.env.ANTHROPIC_API_KEY,
+  // apiKey: "YOUR-API-KEY",
+  maxTokens: 2000,
+});
+
+//splitter
+const splitter = new RecursiveCharacterTextSplitter({
+  chunkSize: 2000,
+  chunkOverlap: 100,
+});
+
+//summarizer
+const summarizer = loadSummarizationChain(llm)    
 
 async function main() {
   try {
@@ -82,12 +102,6 @@ async function main() {
     transcriptObject.id = dbTranscript[0].id;
   }
 
-  //split pdf
-  const splitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 2000,
-      chunkOverlap: 100,
-  });
-
   const splitDocs = await splitter.splitDocuments(docs);
 
   for (const docChunk of splitDocs) {
@@ -107,8 +121,13 @@ async function main() {
       transcriptId : transcriptObject.id,
     }
 
+    //summarize chunk before for better embedding
+    const summary = await summarizer.invoke({
+      input_documents: [docChunk],
+    });
+
     //Generate and set embedding
-    const embedding = await generateOpenAIEmbedding(docChunk.pageContent);
+    const embedding = await generateOpenAIEmbedding(summary.text  );
     // transcriptObject["transcript_chunks"].push({...newChunkObject, embedding });    
   
     //insert transcript chunk with embedding
