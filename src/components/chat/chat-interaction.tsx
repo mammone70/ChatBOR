@@ -26,6 +26,7 @@ import { useState, useTransition } from "react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { readStreamableValue } from "ai/rsc"
 import { ReloadIcon } from "@radix-ui/react-icons"
+import { StatusButton } from "../status-button"
 
 export default function ChatInteraction() {
     // const [isPending, startTransition] = useTransition();
@@ -132,18 +133,7 @@ export default function ChatInteraction() {
                                         <TooltipContent side="top">Use Microphone</TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
-                                {!isPending 
-                                ?
-                                    <Button type="submit" size="sm" className="ml-auto gap-1.5">
-                                        Send Message
-                                        <CornerDownLeft className="size-3.5" />
-                                    </Button>
-                                :
-                                    <Button disabled size="sm" className="ml-auto gap-1.5">
-                                        Asking ...
-                                        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-                                    </Button>
-                                }
+                                <StatusButton classes="ml-auto gap-1.5" isPending={isPending}/>
                             </div>
                         </form>
                     </Form>
