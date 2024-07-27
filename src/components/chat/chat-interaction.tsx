@@ -25,9 +25,11 @@ import * as z from "zod";
 import { useState, useTransition } from "react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { readStreamableValue } from "ai/rsc"
+import { ReloadIcon } from "@radix-ui/react-icons"
 
 export default function ChatInteraction() {
-    const [isPending, startTransition] = useTransition();
+    // const [isPending, startTransition] = useTransition();
+    const [isPending, setIsPending] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [chatHistory, setChatHistory] = useState<string | undefined>("");
@@ -40,10 +42,11 @@ export default function ChatInteraction() {
     });
 
     const onSubmit = async (values: z.infer<typeof ChatSchema>) => {
-        setError("");
-        setSuccess("");
+        // setError("");
+        // setSuccess("");
         setChatHistory("");
-        
+        setIsPending(true);
+
         const { status } = await chat(values);
 
         for await (const chunk of readStreamableValue(status!)) {
@@ -53,30 +56,31 @@ export default function ChatInteraction() {
         
         // startTransition(() => {
         //     chat(values)
-        //         .then((data) => {
-        //             if(data?.error) {
-        //                 // form.reset();
-        //                 setError(data.error);
+        //         .then(async ({status}) => {
+        //             for await (const chunk of readStreamableValue(status!)) {
+        //                 setChatHistory((currentHistory) => `${currentHistory}${chunk}`);
         //             }
 
-        //             if(data?.success) {
-        //                 // form.reset();
-        //                 setChatHistory(data.chunks);
-        //                 setSuccess(data.success);
-        //             }
+        //             // if(data?.error) {
+        //             //     // form.reset();
+        //             //     setError(data.error);
+        //             // }
 
-        //             // if(data?.twoFactor) {
-        //             //     setShowTwoFactor(true);
+        //             // if(data?.success) {
+        //             //     // form.reset();
+        //             //     setChatHistory(data.chunks);
+        //             //     setSuccess(data.success);
         //             // }
         //         })
         //         .catch(() => setError("Something went wrong."));
         // });
+        setIsPending(false);
     };
 
     return (
         <div className="flex h-screen items-center justify-center">
             <main className="h-screen py-4 w-3/5">
-                <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/80 p-4 lg:col-span-2">
+                <div className="border border-white relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/80 p-4 lg:col-span-2">
                     <Badge variant="outline" className="absolute right-3 top-3 border-primary">
                         Output
                     </Badge>
@@ -86,7 +90,7 @@ export default function ChatInteraction() {
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring" x-chunk="dashboard-03-chunk-1"
+                            className="border-white relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring" x-chunk="dashboard-03-chunk-1"
                         >
                             <FormField
                                 control={form.control}
@@ -128,10 +132,18 @@ export default function ChatInteraction() {
                                         <TooltipContent side="top">Use Microphone</TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
-                                <Button type="submit" size="sm" className="ml-auto gap-1.5">
-                                    Send Message
-                                    <CornerDownLeft className="size-3.5" />
-                                </Button>
+                                {!isPending 
+                                ?
+                                    <Button type="submit" size="sm" className="ml-auto gap-1.5">
+                                        Send Message
+                                        <CornerDownLeft className="size-3.5" />
+                                    </Button>
+                                :
+                                    <Button disabled size="sm" className="ml-auto gap-1.5">
+                                        Asking ...
+                                        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                                    </Button>
+                                }
                             </div>
                         </form>
                     </Form>
