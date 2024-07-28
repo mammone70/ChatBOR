@@ -1,5 +1,5 @@
-import { Separator } from "../ui/separator";
-import { ExcerptProps } from "./transcript-excerpts";
+import { ExcerptProps } from "@/app/providers";
+import { Separator } from "@/components/ui/separator";
 
 interface ExcerptDisplayProps {
   excerpt: ExcerptProps | null
