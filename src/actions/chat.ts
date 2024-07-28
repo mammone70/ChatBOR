@@ -63,7 +63,7 @@ export const chat = async (values: z.infer<typeof ChatSchema>) => {
             model: "gpt-4o-mini",
             // In Node.js defaults to process.env.ANTHROPIC_API_KEY,
             // apiKey: "YOUR-API-KEY",
-            maxTokens: 2000,
+            maxTokens: -1,
         });
         
         //create multi query retriever so we can generate multiple
@@ -154,7 +154,6 @@ export const chat = async (values: z.infer<typeof ChatSchema>) => {
         );
 
         for await (const chunk of stream) {
-            // console.log("Chunk: " + chunk.content.toString())
             streamableStatus.update(chunk.answer);
         }
 
