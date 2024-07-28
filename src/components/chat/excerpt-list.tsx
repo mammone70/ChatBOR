@@ -1,12 +1,14 @@
 "use client"
 
+import { ExcerptProps } from '@/app/providers';
 import { ScrollArea } from '../ui/scroll-area';
-import { ExcerptProps } from '@/components/chat/transcript-excerpts';
 import ExcerptListItem from './excerpt-list-item';
+import { Dispatch, SetStateAction } from 'react';
 
 interface ExcerptListProps {
     excerpts: ExcerptProps[] | null,
-    setSelected(id : string) : void,
+    // setSelected(id : string) : void,
+    setSelected : Dispatch<SetStateAction<string>> | null;
     selectedId : string | null,
 }
 

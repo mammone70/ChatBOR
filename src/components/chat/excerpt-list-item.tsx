@@ -1,9 +1,11 @@
-import { ExcerptProps } from "@/components/chat/transcript-excerpts"
+import { ExcerptProps } from "@/app/providers"
 import { cn } from "@/lib/utils"
+import { Dispatch, SetStateAction } from "react";
 
 interface ExcerptListItemProps {
     excerpt: ExcerptProps,
-    setSelected(id : string | null) : void,
+    setSelected : Dispatch<SetStateAction<string>> | null;
+    //setSelected(id : string | null) : void,
     selectedId : string | null,
 }
 
@@ -15,9 +17,11 @@ function ExcerptListItem(props : ExcerptListItemProps) {
             "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
                 props.selectedId === props.excerpt.chunkId && "bg-muted"
             )}
-            onClick={() =>
-                props.setSelected(props.excerpt.chunkId)
-            }
+            onClick={() => {
+                if (props.setSelected) {
+                    props.setSelected(props.excerpt.chunkId || "")
+                }
+            }}
         >
             <div className="flex w-full flex-col gap-1">
                 <div className="flex items-center">

@@ -1,14 +1,12 @@
 "use client"
 
 import {
-    CornerDownLeft,
     Mic,
     Paperclip,
 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import {
     Tooltip,
@@ -22,19 +20,20 @@ import { useForm } from "react-hook-form"
 import { ChatSchema } from "@/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod";
-import { useState, useTransition } from "react"
+import { createContext, useContext, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { readStreamableValue } from "ai/rsc"
-import { ReloadIcon } from "@radix-ui/react-icons"
 import { StatusButton } from "../status-button"
+import { ChatContext } from "@/app/providers"
 
 export default function ChatInteraction() {
     // const [isPending, startTransition] = useTransition();
     const [isPending, setIsPending] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
-    const [chatHistory, setChatHistory] = useState<string | undefined>("");
     
+    const { chatHistory, setChatHistory } = useContext(ChatContext);
+
     const form = useForm<z.infer<typeof ChatSchema>>({
         resolver: zodResolver(ChatSchema),
         defaultValues: {
@@ -45,14 +44,14 @@ export default function ChatInteraction() {
     const onSubmit = async (values: z.infer<typeof ChatSchema>) => {
         // setError("");
         // setSuccess("");
-        setChatHistory("");
+        if (setChatHistory) setChatHistory("");
         setIsPending(true);
 
         const { status } = await chat(values);
 
         for await (const chunk of readStreamableValue(status!)) {
             // console.log(value);
-            setChatHistory((currentHistory) => `${currentHistory}${chunk}`);
+            if (setChatHistory) setChatHistory((currentHistory) => `${currentHistory}${chunk}`);
         }
         
         // startTransition(() => {

@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import { CornerDownLeft, Mic, Paperclip, Search } from "lucide-react"
 import ExcerptList from "./excerpt-list"
 import { ExcerptDisplay } from "./excerpt-display"
-import { useState, useTransition } from "react"
+import { useContext, useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import * as z from "zod";
 import { ChatSchema } from "@/schemas"
@@ -28,16 +28,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 import { Button } from "@/components/ui/button"
 import { searchEmbeddings } from "@/actions/search-embeddings"
 import { StatusButton } from "../status-button"
-
-export interface ExcerptProps {
-    transcriptId: string | null,
-    transcriptName: string | null,
-    chunkId: string | null,
-    pageNumber: number,
-    fromLine: number,
-    toLine: number,
-    content: string | null,
-}
+import { ExcerptsContext } from "@/app/providers"
 
 interface TranscriptExcerptProps {
     defaultLayout: number[] | undefined
@@ -51,11 +42,16 @@ function TranscriptExcerpts({
     navCollapsedSize = 0,
 } : TranscriptExcerptProps) {
 
-  const [selected, setSelected] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const [excerpts, setExcerpts] = useState<ExcerptProps[] | null>([]);
+
+  const { 
+    excerpts, 
+    setExcerpts,
+    selected,
+    setSelected
+  } = useContext(ExcerptsContext);
 
   const form = useForm<z.infer<typeof ChatSchema>>({
       resolver: zodResolver(ChatSchema),
@@ -78,7 +74,7 @@ function TranscriptExcerpts({
 
                 if(data?.success) {
                     // form.reset();
-                    setExcerpts(data.chunks);
+                    if(setExcerpts) setExcerpts(data.chunks);
                     setSuccess(data.success);
                 }
             })

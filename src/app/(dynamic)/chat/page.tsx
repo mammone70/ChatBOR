@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
     if (!session) {
       redirect("/auth/login");
     }
-
+    
     return (
         <ChatInteraction></ChatInteraction>
     )
