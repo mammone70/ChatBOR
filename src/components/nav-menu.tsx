@@ -16,6 +16,10 @@ import { usePathname } from "next/navigation";
 
 const menuItems : {text: string, path: string}[] = [
     {
+        text: "Files",
+        path: "/files",
+    },
+    {
         text: "Excerpts",
         path: "/excerpts",
     },
@@ -34,7 +38,7 @@ export default function NavMenu() {
                     <NavigationMenuItem key={index}>
                         <Link href={menuItem.path} legacyBehavior passHref>
                             <NavigationMenuLink 
-                                className={`text-primary font-bold text-xl p-1 ${pathName == menuItem.path ? "border rounded-md border-primary bg-muted/80 pointer-events-none" : ""}`}>
+                                className={`font-bold text-xl p-1 ${pathName == menuItem.path ? "border rounded-md border-primary bg-muted/80 pointer-events-none text-primary" : ""}`}>
                                 {menuItem.text}
                             </NavigationMenuLink>
                         </Link>

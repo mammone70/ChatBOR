@@ -44,14 +44,25 @@ export default function ChatInteraction() {
     const onSubmit = async (values: z.infer<typeof ChatSchema>) => {
         // setError("");
         // setSuccess("");
-        if (setChatHistory) setChatHistory("");
+        if (setChatHistory) setChatHistory([]);
         setIsPending(true);
 
         const { status } = await chat(values);
 
         for await (const chunk of readStreamableValue(status!)) {
             // console.log(value);
-            if (setChatHistory) setChatHistory((currentHistory) => `${currentHistory}${chunk}`);
+            // if (setChatHistory) setChatHistory((currentHistory) => `${currentHistory}${chunk}`);
+            if (setChatHistory) setChatHistory([
+                ...chatHistory, 
+                {
+                    role: "USER", 
+                    message: values.message,
+                },
+                {
+                    role: "AGENT",
+                    message 
+                }
+            ]);
         }
         
         // startTransition(() => {

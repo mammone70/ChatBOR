@@ -11,8 +11,9 @@ export default async function Navbar() {
     return (
         <nav className="h-[10vh] flex items-center border-b border-muted-foreground">
             <div className="container flex items-end">
-                <Link href="/">
-                    <h1 className="font-bold text-3xl">ChatBOR</h1>
+                <Link href="/" className="font-bold text-3xl">
+                    Chat
+                    <span className="text-primary">BOR</span>
                 </Link>
                   { session && 
                     <div className="px-8 font-bold"> 
