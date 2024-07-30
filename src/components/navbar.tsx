@@ -28,7 +28,7 @@ export default async function Navbar() {
                         session 
                         ? 
                             <LogoutButton>
-                                <Button className="border border-primary">
+                                <Button variant="secondary">
                                     Sign Out
                                 </Button>
                             </LogoutButton>
