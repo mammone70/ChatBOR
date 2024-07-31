@@ -21,16 +21,21 @@ export interface ExcerptsContextProps {
 }
 
 export interface ChatContextProps {
-    chatHistory : string;
-    setChatHistory : Dispatch<SetStateAction<string>> | null;
+    chatHistory : ChatMessage[];
+    setChatHistory : Dispatch<SetStateAction<ChatMessage[]>> | null;
 }
 
 interface ProvidersProps {
     children: React.ReactNode
 }
 
+interface ChatMessage {
+    role : "USER" | "AGENT",
+    message : string,
+}
+
 export const ChatContext = createContext<ChatContextProps>({
-    chatHistory: "",
+    chatHistory: [],
     setChatHistory: null,
 });
 
@@ -43,7 +48,7 @@ export const ExcerptsContext = createContext<ExcerptsContextProps>({
 
 export default function Providers({children}: ProvidersProps) {
     const [excerpts, setExcerpts] = useState<ExcerptProps[]>([]);
-    const [chatHistory, setChatHistory] = useState<string>("");
+    const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
     const [selected, setSelected] = useState<string>("");
     
     return (

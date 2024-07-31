@@ -33,58 +33,56 @@ export default function ChatInteraction() {
     const [success, setSuccess] = useState<string | undefined>("");
     
     const { chatHistory, setChatHistory } = useContext(ChatContext);
+    const [ currentAgentResponse, setCurrentAgentResponse ] = useState<string>("");
 
     const form = useForm<z.infer<typeof ChatSchema>>({
         resolver: zodResolver(ChatSchema),
         defaultValues: {
-            message : "",
+            message : "What did the department say aobut religious exemptions?",
         },
     });
 
     const onSubmit = async (values: z.infer<typeof ChatSchema>) => {
         // setError("");
         // setSuccess("");
-        if (setChatHistory) setChatHistory([]);
         setIsPending(true);
+
+        if (setChatHistory) {
+            setChatHistory(
+                (currentHistory) =>
+                    [
+                        ...currentHistory, 
+                        {
+                            role: "USER", 
+                            message: values.message,
+                        },
+                    ]
+            );
+        }
 
         const { status } = await chat(values);
 
+        let tempCurrentResponse = "";
         for await (const chunk of readStreamableValue(status!)) {
             // console.log(value);
-            // if (setChatHistory) setChatHistory((currentHistory) => `${currentHistory}${chunk}`);
-            if (setChatHistory) setChatHistory([
-                ...chatHistory, 
-                {
-                    role: "USER", 
-                    message: values.message,
-                },
-                {
-                    role: "AGENT",
-                    message 
-                }
-            ]);
+            setCurrentAgentResponse((currentAgentResponse) => `${currentAgentResponse}${chunk}`);
+            tempCurrentResponse = `${tempCurrentResponse}${chunk}`;
         }
-        
-        // startTransition(() => {
-        //     chat(values)
-        //         .then(async ({status}) => {
-        //             for await (const chunk of readStreamableValue(status!)) {
-        //                 setChatHistory((currentHistory) => `${currentHistory}${chunk}`);
-        //             }
 
-        //             // if(data?.error) {
-        //             //     // form.reset();
-        //             //     setError(data.error);
-        //             // }
+        if (setChatHistory) {
+            setChatHistory(
+                (currentHistory) =>
+                    [
+                        ...currentHistory, 
+                        {
+                            role: "AGENT", 
+                            message: tempCurrentResponse,
+                        },
+                    ]
+            );
+        }
 
-        //             // if(data?.success) {
-        //             //     // form.reset();
-        //             //     setChatHistory(data.chunks);
-        //             //     setSuccess(data.success);
-        //             // }
-        //         })
-        //         .catch(() => setError("Something went wrong."));
-        // });
+        setCurrentAgentResponse("");
         setIsPending(false);
     };
 
@@ -96,7 +94,15 @@ export default function ChatInteraction() {
                         Output
                     </Badge>
                     <div className="flex-1 overflow-y-auto pt-5">
-                        {chatHistory}
+                        {
+                            chatHistory && chatHistory.map((chatMessage, index) =>
+                                <div key={index.toString()}>{chatMessage.role} : {chatMessage.message}</div>
+                            )
+                        }
+                        {
+                            currentAgentResponse &&
+                                <div> AGENT : {currentAgentResponse}</div>
+                        }
                     </div>
                     <Form {...form}>
                         <form
@@ -114,7 +120,7 @@ export default function ChatInteraction() {
                                         <FormControl>
                                             <Textarea
                                                 {...field}
-                                                placeholder="Type your message here..."
+                                                // placeholder="Type your message here..."
                                                 className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0"
                                             />
                                         </FormControl>
