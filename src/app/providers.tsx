@@ -1,7 +1,7 @@
 'use client'
 
 import { SessionProvider } from 'next-auth/react';
-import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, useState } from 'react';
 
 export interface ExcerptProps {
     transcriptId: string | null,
@@ -29,7 +29,7 @@ interface ProvidersProps {
     children: React.ReactNode
 }
 
-interface ChatMessage {
+export interface ChatMessage {
     role : "USER" | "AGENT",
     message : string,
 }

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 
 import { Inter as FontSans } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider";
-import Providers from "./providers";
+import Providers from "@/app/providers";
 import Navbar from "@/components/navbar";
 
 const fontSans = FontSans({
