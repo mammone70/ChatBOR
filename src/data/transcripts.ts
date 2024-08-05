@@ -55,12 +55,12 @@ export async function multiQueryRetrieveTranscripts(
 
 export async function semanticSearchTranscripts(
     query : string,
-    minSimilarity : number = .6,
+    minSimilarity : number = .5,
     maxResults : number = 0
 ){
     try {
         if (query.trim().length === 0) return [];
-
+        console.log(query);
         const embedding = await generateOpenAIEmbedding(query)
         const vectorQuery = `[${embedding.join(',')}]`
 

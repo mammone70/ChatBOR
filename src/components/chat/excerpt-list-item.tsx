@@ -29,7 +29,6 @@ function ExcerptListItem(props : ExcerptListItemProps) {
                         {props.excerpt.transcriptName}
                     </div>
                 </div>
-            {/* <div className="text-xs font-medium">{item.subject}</div> */}
             </div>
             <div className="flex items-center gap-2">
                 <span>Page {props.excerpt.pageNumber}</span>
@@ -38,15 +37,6 @@ function ExcerptListItem(props : ExcerptListItemProps) {
             <div className="line-clamp-2 text-xs">
                 {props.excerpt.content?.substring(0, 300)}
             </div>
-            {/* {item.labels.length ? (
-            <div className="flex items-center gap-2">
-                {item.labels.map((label) => (
-                <Badge key={label} variant={getBadgeVariantFromLabel(label)}>
-                    {label}
-                </Badge>
-                ))}
-            </div>
-            ) : null} */}
         </button>
   )
 }
