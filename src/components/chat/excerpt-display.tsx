@@ -1,5 +1,6 @@
 import { ExcerptProps } from "@/app/providers";
 import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ExcerptDisplayProps {
   excerpt: ExcerptProps | null
@@ -7,6 +8,7 @@ interface ExcerptDisplayProps {
 
 export function ExcerptDisplay(props : ExcerptDisplayProps) {
     return (
+      <ScrollArea className="h-screen">
         <div className="flex h-full flex-col">
           <div className="flex items-center p-2">              
             <h1 className="text-xl font-bold">
@@ -17,12 +19,8 @@ export function ExcerptDisplay(props : ExcerptDisplayProps) {
           {props?.excerpt ? (
             <div className="flex flex-1 flex-col">                
               <Separator />
-              <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
+              <div className="flex-1 whitespace-pre-wrap p-4 text-lg font-semibold overflow-scroll">
                 {props.excerpt.content}
-              </div>
-              <Separator className="mt-auto" />
-              <div className="p-4">
-                
               </div>
             </div>
           ) : (
@@ -31,6 +29,7 @@ export function ExcerptDisplay(props : ExcerptDisplayProps) {
             </div>
           )}
         </div>
+      </ScrollArea>
     )
 }
 

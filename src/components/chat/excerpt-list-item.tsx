@@ -14,8 +14,8 @@ function ExcerptListItem(props : ExcerptListItemProps) {
         <button
             key={props.excerpt.chunkId}
             className={cn(
-            "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
-                props.selectedId === props.excerpt.chunkId && "bg-muted"
+            "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-primary/30",
+                props.selectedId === props.excerpt.chunkId && "bg-primary/50"
             )}
             onClick={() => {
                 if (props.setSelected) {
@@ -24,24 +24,9 @@ function ExcerptListItem(props : ExcerptListItemProps) {
             }}
         >
             <div className="flex w-full flex-col gap-1">
-                <div className="flex items-center">
                 <div className="flex items-center gap-2">
-                    <div className="font-semibold">{props.excerpt.transcriptName}</div>
-                    {/* {!item.read && (
-                        <span className="flex h-2 w-2 rounded-full bg-blue-600" />
-                    )} */}
-                    </div>
-                    <div
-                        // className={cn(
-                        //     "ml-auto text-xs",
-                        //     excerpt.chunkId === selected
-                        //       ? "text-foreground"
-                        //       : "text-muted-foreground"
-                        // )}
-                        >
-                        {/* {formatDistanceToNow(new Date(item.date), {
-                            addSuffix: true,
-                        })} */}
+                    <div className="font-semibold">
+                        {props.excerpt.transcriptName}
                     </div>
                 </div>
             {/* <div className="text-xs font-medium">{item.subject}</div> */}
@@ -50,7 +35,7 @@ function ExcerptListItem(props : ExcerptListItemProps) {
                 <span>Page {props.excerpt.pageNumber}</span>
                 <span>Lines {props.excerpt.fromLine} to {props.excerpt.toLine}</span>
             </div>
-            <div className="line-clamp-2 text-xs text-muted-foreground">
+            <div className="line-clamp-2 text-xs">
                 {props.excerpt.content?.substring(0, 300)}
             </div>
             {/* {item.labels.length ? (

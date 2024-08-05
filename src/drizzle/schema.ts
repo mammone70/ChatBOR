@@ -84,7 +84,8 @@ export const users = pgTable("user", {
     emailVerified: timestamp("emailVerified", { mode: "date" }),
     image: text("image"),
     userRole : userRoleEnum('userRole').default("USER").notNull(),
-})
+    authorized : boolean('authorized').default(false).notNull(),
+});
 
 export const accounts = pgTable(
 "account",

@@ -95,6 +95,7 @@ export const {
 
         if (!existingUser) return token; //new user
 
+
         // token.role = existingUser.role;
         
         return token;

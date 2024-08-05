@@ -14,7 +14,7 @@ import {
 
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
-import { CornerDownLeft, Mic, Paperclip, Search } from "lucide-react"
+import { Mic, Paperclip } from "lucide-react"
 import ExcerptList from "./excerpt-list"
 import { ExcerptDisplay } from "./excerpt-display"
 import { useContext, useState, useTransition } from "react"
@@ -29,6 +29,7 @@ import { Button } from "@/components/ui/button"
 import { searchEmbeddings } from "@/actions/search-embeddings"
 import { StatusButton } from "../status-button"
 import { ExcerptsContext } from "@/app/providers"
+import ExcerptResultsPopover from "./excerpt-results-dialog";
 
 interface TranscriptExcerptProps {
     defaultLayout: number[] | undefined
@@ -90,7 +91,7 @@ function TranscriptExcerpts({
             sizes
         )}`
         }}
-        className="h-full max-h-[800px] items-stretch"
+        className="h-full items-stretch"
     >
       <ResizablePanel defaultSize={defaultLayout[0]} minSize={30}>
         <Tabs defaultValue="all">
@@ -153,6 +154,14 @@ function TranscriptExcerpts({
                   </Form>
             </div>
           </div>
+          {
+            (excerpts && excerpts.length > 0) 
+              && 
+              <div className="flex bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+                <span className="p-2">{excerpts.length} Excerpts </span>
+                <ExcerptResultsPopover excerpts={excerpts}></ExcerptResultsPopover>
+              </div>
+          }
           <TabsContent value="all" className="m-0">
             {/* <MailList items={mails} /> */}
             <ExcerptList 

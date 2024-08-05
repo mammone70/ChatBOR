@@ -10,6 +10,7 @@ import { loadSummarizationChain } from "langchain/chains";
 
 import { 
   formatTextForDatabase, 
+  formatTextForEmbedding, 
   generateOpenAIEmbedding 
 } from '../lib/embed';
 import { ChatOpenAI } from '@langchain/openai';
@@ -36,8 +37,8 @@ const llm = new ChatOpenAI({
 
 //splitter
 const splitter = new RecursiveCharacterTextSplitter({
-  chunkSize: 2000,
-  chunkOverlap: 100,
+  chunkSize: 1000,
+  chunkOverlap: 200,
 });
 
 //summarizer
@@ -46,7 +47,6 @@ const summarizer = loadSummarizationChain(llm)
 async function main() {
   try {
     const transcript = await db.query.transcripts.findFirst({
-        // where: (transcripts, { eq }) => eq(transcri.name, 'Pikachu'),
     })
 
     // if (transcript) {
@@ -123,23 +123,17 @@ async function main() {
 
     //summarize chunk before for better embedding
     const summary = await summarizer.invoke({
-      input_documents: [docChunk],
+      input_documents: [docChunk.pageContent],
     });
 
     //Generate and set embedding
-    const embedding = await generateOpenAIEmbedding(summary.text  );
+    const embedding = await generateOpenAIEmbedding(docChunk.pageContent);
     // transcriptObject["transcript_chunks"].push({...newChunkObject, embedding });    
   
     //insert transcript chunk with embedding
     await db
           .insert(transcript_chunks)
           .values({...newChunkObject, embedding })
-
-    // Uncomment the following lines if you want to generate the JSON file
-    // fs.writeFileSync(
-    //   path.join(__dirname, "./pokemon-with-embeddings.json"),
-    //   JSON.stringify({ data }, null, 2),
-    // );
   }
 
   console.log('DB Seeded Successfully!')

@@ -1,14 +1,22 @@
 import { db } from "@/drizzle/db";
 import { transcript_chunks, transcripts } from "@/drizzle/schema";
 import { generateOpenAIEmbedding } from "@/lib/embed";
-import { cosineDistance, sql, gt, eq } from "drizzle-orm";
+import { 
+    cosineDistance, l1Distance, l2Distance,
+    sql, 
+    gt, 
+    eq, 
+    desc,
+    or, 
+} from "drizzle-orm";
+
 import type { BaseLanguageModelInterface } from "@langchain/core/language_models/base";
 
 export async function multiQueryRetrieveTranscripts(
     query : string,
     llm : BaseLanguageModelInterface,
     minSimilarity : number = .5,
-    maxResults : number = 10
+    maxResults : number = 100,
 ){
     try {
         if (query.trim().length === 0) return [];
@@ -47,8 +55,8 @@ export async function multiQueryRetrieveTranscripts(
 
 export async function semanticSearchTranscripts(
     query : string,
-    minSimilarity : number = .5,
-    maxResults : number = 10
+    minSimilarity : number = .6,
+    maxResults : number = 0
 ){
     try {
         if (query.trim().length === 0) return [];
@@ -71,11 +79,21 @@ export async function semanticSearchTranscripts(
                         fromLine : transcript_chunks.fromLine,
                         toLine : transcript_chunks.toLine,
                         content : transcript_chunks.content,
+                        similarity,
                     })
                     .from(transcript_chunks)
-                    .where(gt(similarity, minSimilarity))
+                    .where(
+                        or (
+                            //vector/embedding match
+                            gt(similarity, minSimilarity),
+                            //full text/keyword match
+                            sql`to_tsvector('english', 
+                                ${transcript_chunks.content}) @@ plainto_tsquery('english', ${query})`
+                        )
+                    )
                     .leftJoin(transcripts, 
                         eq(transcripts.id, transcript_chunks.transcriptId)) 
+                    // .orderBy((t) => desc(t.similarity))    
                     .limit(maxResults);
 
         return transcriptsWithChunk;
@@ -83,4 +101,4 @@ export async function semanticSearchTranscripts(
     catch (error) {
         throw error;
     }
-}
+};
