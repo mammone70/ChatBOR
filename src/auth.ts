@@ -27,7 +27,10 @@ export const {
     signIn: "/auth/login",
     error: "/auth/error",
   },
-  session: {strategy : "jwt"},
+  session: {
+    strategy : "jwt",
+    updateAge : 3600,
+  },
   events: {
       async linkAccount({ user }) {
           await   db

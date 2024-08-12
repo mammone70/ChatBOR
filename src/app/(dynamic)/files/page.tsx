@@ -1,7 +1,8 @@
+import FileBrowser from "@/components/files/file-browser"
 
 function FilePage() {
     return (
-        <div>Files</div>
+        <FileBrowser></FileBrowser>
     )
 }
 
