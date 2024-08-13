@@ -15,13 +15,6 @@ import {
 } from '../lib/embed';
 import { ChatOpenAI } from '@langchain/openai';
 
-// import { openai } from '../lib/openai'
-// import { embed } from 'ai'
-
-// if (!process.env.OPENAI_API_KEY) {
-//   throw new Error('process.env.OPENAI_API_KEY is not defined. Please set it.')
-// }
-
 if (!process.env.DATABASE_URL) {
   throw new Error('process.env.DATABASE_URL is not defined. Please set it.')
 }
@@ -74,7 +67,6 @@ async function main() {
         (filePath: string) => {
           const loader = new PDFLoader(filePath);
           
-          //store each file name in transcript array
           const newTransactionObject = { 
             id : "",
             name : path.basename(filePath),
@@ -82,6 +74,7 @@ async function main() {
             transcript_chunks: [],
           };
 
+          //store each file name in transcript array
           transcriptObjects.push(newTransactionObject);
           transcriptMap.set(path.basename(filePath), newTransactionObject);
           return loader;

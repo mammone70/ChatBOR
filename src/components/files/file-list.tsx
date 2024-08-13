@@ -1,5 +1,6 @@
 import { Transcript } from "@/data/transcripts"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
+import PDFIcon from "../icons/pdf-icon"
 
 interface FileListProps {
   files : Transcript[]
@@ -12,6 +13,7 @@ function FileList(props : FileListProps) {
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Name</TableHead>
+          <TableHead>Type</TableHead>
           <TableHead className="text-right">Pages</TableHead>
         </TableRow>
       </TableHeader>
@@ -21,6 +23,7 @@ function FileList(props : FileListProps) {
             (file) => (
               <TableRow key={file.id}>
                 <TableCell className="font-medium truncate">{file.name}</TableCell>
+                <TableCell><PDFIcon></PDFIcon></TableCell>
                 <TableCell className="text-right">{file.totalPages}</TableCell>
               </TableRow>
             )

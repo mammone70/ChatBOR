@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FilePlus } from "lucide-react"
+import { InputFile } from "./input-file"
 
 export function AddFileDialog() {
   return (
@@ -26,26 +27,19 @@ export function AddFileDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Share link</DialogTitle>
+          <DialogTitle>Upload File</DialogTitle>
           <DialogDescription>
-            Anyone who has this link will be able to view this.
+            Select File
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="link" className="sr-only">
-              Link
-            </Label>
-            <Input
-              id="link"
-              defaultValue="https://ui.shadcn.com/docs/installation"
-              readOnly
-            />
+            <InputFile inputName="uploadFile" labelText=""></InputFile>
           </div>
-          <Button type="submit" size="sm" className="px-3">
+          {/* <Button type="submit" size="sm" className="px-3">
             <span className="sr-only">Copy</span>
             <CopyIcon className="h-4 w-4" />
-          </Button>
+          </Button> */}
         </div>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
