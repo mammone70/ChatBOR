@@ -12,6 +12,12 @@ import {
 
 import type { BaseLanguageModelInterface } from "@langchain/core/language_models/base";
 
+export interface Transcript {
+    name: string;
+    id: string;
+    totalPages: number | null;
+}
+
 export async function multiQueryRetrieveTranscripts(
     query : string,
     llm : BaseLanguageModelInterface,
@@ -101,4 +107,9 @@ export async function semanticSearchTranscripts(
     catch (error) {
         throw error;
     }
+};
+
+export async function getTranscripts() : Promise<Transcript[]> {
+    const transcripts = await db.query.transcripts.findMany();
+    return transcripts;
 };

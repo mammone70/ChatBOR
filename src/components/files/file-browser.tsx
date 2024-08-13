@@ -4,8 +4,12 @@ import { Input } from "@/components/ui/input"
 import { LayoutGrid, List, Search } from "lucide-react"
 import FileCards from "@/components/files/file-cards";
 import FileList from "@/components/files/file-list";
+import { AddFileDialog } from "./add-file-dialog";
+import { getTranscripts, Transcript } from "@/data/transcripts";
 
-function FileBrowser() {
+async function FileBrowser() {
+    const files : Transcript[] = await getTranscripts();
+
     return (
         <>
             <Tabs defaultValue="cards">
@@ -31,13 +35,14 @@ function FileBrowser() {
                             <Input placeholder="Search" className="pl-8" />
                         </div>
                     </form>
+                    <AddFileDialog></AddFileDialog>
                 </div>
                 <Separator />
-                <TabsContent value="cards" className="m-0">
-                    <FileCards></FileCards>
+                <TabsContent value="cards" className="m-2">
+                    <FileCards files={files}></FileCards>
                 </TabsContent>
-                <TabsContent value="list" className="m-0">
-                    <FileList></FileList>
+                <TabsContent value="list" className="m-2">
+                    <FileList files={files}></FileList>
                 </TabsContent>
             </Tabs>
         </>
