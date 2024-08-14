@@ -1,8 +1,5 @@
 import { Transcript } from "@/data/transcripts"
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
 import PDFIcon from "../icons/pdf-icon"
-import FileContextMenu from "@/components/files/file-context-menu"
-import { Separator } from "../ui/separator"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip"
 
 import {
@@ -11,6 +8,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu"
+import { FileDown, Trash2 } from "lucide-react"
 
 interface FileListProps {
   files : Transcript[]
@@ -33,7 +31,8 @@ function FileList(props : FileListProps) {
                         <ContextMenu>
                           <ContextMenuTrigger className={`px-8 py-2 truncate ${index % 2 === 0 ? "bg-muted" : ""}`}>{file.name}</ContextMenuTrigger>
                           <ContextMenuContent>
-                              <ContextMenuItem>Profile</ContextMenuItem>
+                            <ContextMenuItem><FileDown className="mr-2"/>Download</ContextMenuItem>
+                            <ContextMenuItem><Trash2 className="mr-2"/>Delete</ContextMenuItem>
                           </ContextMenuContent>
                       </ContextMenu>
                       </TooltipTrigger>
@@ -43,13 +42,15 @@ function FileList(props : FileListProps) {
                   <ContextMenu>
                     <ContextMenuTrigger className={`px-8 py-2 ${index % 2 === 0 ? "bg-muted" : ""}`}><PDFIcon></PDFIcon></ContextMenuTrigger>
                     <ContextMenuContent>
-                      <ContextMenuItem>Profile</ContextMenuItem>
+                      <ContextMenuItem><FileDown className="mr-2"/>Download</ContextMenuItem>
+                      <ContextMenuItem><Trash2 className="mr-2"/>Delete</ContextMenuItem>
                     </ContextMenuContent>
                   </ContextMenu>
                   <ContextMenu>
                     <ContextMenuTrigger className={`px-8 py-2 ${index % 2 === 0 ? "bg-muted" : ""}`}>0</ContextMenuTrigger>
                     <ContextMenuContent>
-                      <ContextMenuItem>Profile</ContextMenuItem>
+                      <ContextMenuItem><FileDown className="mr-2"/>Download</ContextMenuItem>
+                      <ContextMenuItem><Trash2 className="mr-2"/>Delete</ContextMenuItem>
                     </ContextMenuContent>
                   </ContextMenu>
                 </>
@@ -57,7 +58,6 @@ function FileList(props : FileListProps) {
             )
           }
       </div>
-      <Separator></Separator>
     </>
     // <Table>
     //   <TableCaption>All of your transcripts</TableCaption>
