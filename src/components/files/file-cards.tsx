@@ -1,5 +1,6 @@
 import { Transcript } from "@/data/transcripts"
-import FileCard from "./file-card"
+import FileCard from "@/components/files/file-card"
+import FileContextMenu from "@/components/files/file-context-menu"
 
 interface FileCardsProps {
   files : Transcript[]
@@ -11,7 +12,9 @@ function FileCards(props : FileCardsProps) {
       {
         props.files.map(
           (file) => (
-            <FileCard file={file} key={file.id}></FileCard>  
+            <FileContextMenu key={file.id}>
+              <FileCard file={file}></FileCard>  
+            </FileContextMenu>
           ) 
         )
       }
