@@ -49,3 +49,16 @@ export const ChatSchema = z.object({
     //         message: `Chat conversation must not be longer than ${process.env.MAX_CHAT_MESSAGE_SIZE}`,
     //     }),
 });
+
+export const UploadFileSchema = z.object({
+    // title: z.string().min(1).max(200),
+    files: z
+      .custom<FileList>((val) => val instanceof FileList, "Required")
+      .refine((files) => files.length > 0, `Required`),
+});
+
+export const DeleteFileSchema = z.object({
+    id: z.string({
+        required_error : "ID is required!",
+    }),
+});

@@ -8,6 +8,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Providers from "@/app/providers";
 import Navbar from "@/components/navbar";
 
+import { Toaster } from "@/components/ui/toaster";
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -39,6 +41,7 @@ export default function RootLayout({
           <Providers>
             <Navbar/>
             {children}
+            <Toaster></Toaster>
           </Providers>
         </ThemeProvider>
       </body>

@@ -21,12 +21,13 @@ function FileList(props : FileListProps) {
                   <FileContextMenu 
                     className={`px-8 py-2 truncate${index % 2 === 0 ? " bg-muted" : ""}`}
                     tooltip={file.name}
+                    fileId={file.id}
                   >
                     {file.name}
                   </FileContextMenu>
     
-                  <FileContextMenu className={`px-8 py-2${index % 2 === 0 ? " bg-muted" : ""}`}><PDFIcon></PDFIcon></FileContextMenu>
-                  <FileContextMenu className={`px-8 py-2${index % 2 === 0 ? " bg-muted" : ""}`}>0</FileContextMenu>
+                  <FileContextMenu fileId={file.id} className={`px-8 py-2${index % 2 === 0 ? " bg-muted" : ""}`}><PDFIcon></PDFIcon></FileContextMenu>
+                  <FileContextMenu fileId={file.id} className={`px-8 py-2${index % 2 === 0 ? " bg-muted" : ""}`}>0</FileContextMenu>
                 </>
               )
             )

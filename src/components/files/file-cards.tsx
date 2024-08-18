@@ -12,7 +12,7 @@ function FileCards(props : FileCardsProps) {
       {
         props.files.map(
           (file) => (
-            <FileContextMenu key={file.id}>
+            <FileContextMenu fileId={file.id} key={file.id}>
               <FileCard file={file}></FileCard>  
             </FileContextMenu>
           ) 
