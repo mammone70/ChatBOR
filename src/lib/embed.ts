@@ -38,7 +38,8 @@ export async function generateOllamaEmbedding(_input: string) {
 export async function generateOpenAIEmbedding(_input: string) {
     const embedder = new OpenAIEmbeddings({
         model: 'text-embedding-3-large',
-        dimensions: 1024
+        dimensions: 1024,
+        verbose : false,
       });
       
     const formattedInput = formatTextForEmbedding(_input);

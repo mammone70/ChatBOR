@@ -9,6 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
+import { uploadFile } from "@/actions/file-actions";
 
 interface InputFileFormProps {
     labelText : string,
@@ -44,8 +45,8 @@ export function InputFileForm(props : InputFileFormProps) {
       //   type: types[fileType],
       // });
 
-      // await uploadFile(formData);
-      // form.reset();
+      await uploadFile(formData);
+      form.reset();
       // setIsFileDialogOpen(false);
 
       toast({
@@ -85,7 +86,7 @@ export function InputFileForm(props : InputFileFormProps) {
             name="files"
             render={() => (
               <FormItem>
-                <FormLabel>{props.labelText}</FormLabel>
+                <FormLabel htmlFor="files">{props.labelText}</FormLabel>
                 <FormControl>
                   <Input 
                     className="cursor-pointer" 

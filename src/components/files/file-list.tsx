@@ -27,7 +27,7 @@ function FileList(props : FileListProps) {
                   </FileContextMenu>
     
                   <FileContextMenu fileId={file.id} className={`px-8 py-2${index % 2 === 0 ? " bg-muted" : ""}`}><PDFIcon></PDFIcon></FileContextMenu>
-                  <FileContextMenu fileId={file.id} className={`px-8 py-2${index % 2 === 0 ? " bg-muted" : ""}`}>0</FileContextMenu>
+                  <FileContextMenu fileId={file.id} className={`px-8 py-2${index % 2 === 0 ? " bg-muted" : ""}`}>{file.totalPages ? file.totalPages : 0}</FileContextMenu>
                 </>
               )
             )
