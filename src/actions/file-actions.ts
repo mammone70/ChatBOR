@@ -7,15 +7,17 @@ import { DeleteFileSchema } from "@/schemas";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 
 // import { UploadFileSchema } from "@/schemas";
 
 import * as z from "zod";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { formatTextForDatabase, generateOpenAIEmbedding } from "@/lib/embed";
+
+import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
+import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { ChatOpenAI } from "@langchain/openai";
 import { loadSummarizationChain } from "langchain/chains";
+
+import { formatTextForDatabase, generateOpenAIEmbedding } from "@/lib/embed";
 
 //llm
 const llm = new ChatOpenAI({
