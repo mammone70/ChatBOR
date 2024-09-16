@@ -1,6 +1,6 @@
 import { db } from "@/drizzle/db";
 import { transcript_chunks, transcripts } from "@/drizzle/schema";
-import { generateOpenAIEmbedding } from "@/lib/embed";
+import { generateOpenAIEmbedding, formatTextForDatabase } from "@/lib/embed";
 import { 
     cosineDistance, l1Distance, l2Distance,
     sql, 
@@ -11,6 +11,8 @@ import {
 } from "drizzle-orm";
 
 import type { BaseLanguageModelInterface } from "@langchain/core/language_models/base";
+import { Document } from "langchain/document";
+import { MapReduceDocumentsChain, RefineDocumentsChain, StuffDocumentsChain } from "langchain/chains";
 
 export interface Transcript {
     name: string;
@@ -113,3 +115,51 @@ export async function getTranscripts() : Promise<Transcript[]> {
     const transcripts = await db.query.transcripts.findMany();
     return transcripts;
 };
+
+/**
+ * Interface defining parameters for the embedDocumentChunks()
+ * function.
+ * 
+ */
+export interface EmbedDocumentChunksParams {
+    docChunks : Document<Record<string, any>>[],
+    mainDocId : string,
+    summarizer: StuffDocumentsChain |
+                MapReduceDocumentsChain |
+                RefineDocumentsChain,
+}
+
+/**
+ * Function to take a list of docChunks, summarize each one, 
+ * generate an embedding from the text, and create a 
+ * transcript_chunk record in the database.
+ */
+export async function embedDocumentChunks({
+    docChunks,
+    mainDocId,
+    summarizer,
+} : EmbedDocumentChunksParams){
+    for (const docChunk of docChunks) {
+        //set chunk metadata
+        const newChunkObject = {
+            pageNumber : docChunk.metadata.loc.pageNumber,
+            fromLine : docChunk.metadata.loc.lines.from,
+            toLine : docChunk.metadata.loc.lines.to,
+            content : formatTextForDatabase(docChunk.pageContent), 
+            transcriptId : mainDocId,
+        }
+    
+        //summarize chunk before for better embedding
+        const summary = await summarizer.invoke({
+            input_documents: [docChunk.pageContent],
+        });
+    
+        //Generate and set embedding
+        const embedding = await generateOpenAIEmbedding(docChunk.pageContent);
+    
+        //insert transcript chunk with embedding
+        await db
+            .insert(transcript_chunks)
+            .values({...newChunkObject, embedding });
+    }
+}

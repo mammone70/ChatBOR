@@ -17,7 +17,7 @@ function FileList(props : FileListProps) {
           {
             props.files.map(
               (file, index) => (
-                <>
+                <div key={file.id}>
                   <FileContextMenu 
                     className={`px-8 py-2 truncate${index % 2 === 0 ? " bg-muted" : ""}`}
                     tooltip={file.name}
@@ -28,7 +28,7 @@ function FileList(props : FileListProps) {
     
                   <FileContextMenu fileId={file.id} className={`px-8 py-2${index % 2 === 0 ? " bg-muted" : ""}`}><PDFIcon></PDFIcon></FileContextMenu>
                   <FileContextMenu fileId={file.id} className={`px-8 py-2${index % 2 === 0 ? " bg-muted" : ""}`}>{file.totalPages ? file.totalPages : 0}</FileContextMenu>
-                </>
+                </div>
               )
             )
           }
