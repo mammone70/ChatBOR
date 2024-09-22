@@ -5,7 +5,7 @@ import * as z from "zod";
 import bcrypt from "bcryptjs";
 
 import { db } from "@/drizzle/db";
-import { getUserByEmail } from "@/data/user";
+import { getUserByEmail } from "@/dao/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 import { users } from "@/drizzle/schema";

@@ -1,7 +1,7 @@
-import { Transcript } from "@/data/transcripts"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card"
-import PDFIcon from "../icons/pdf-icon"
+import { Transcript } from "@/dao/transcripts"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../../../components/ui/tooltip"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../../../components/ui/card"
+import PDFIcon from "../../../../components/icons/pdf-icon"
 
 interface FileCardProps {
     file : Transcript

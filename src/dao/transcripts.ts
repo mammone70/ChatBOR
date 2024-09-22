@@ -13,6 +13,7 @@ import {
 import type { BaseLanguageModelInterface } from "@langchain/core/language_models/base";
 import { Document } from "langchain/document";
 import { MapReduceDocumentsChain, RefineDocumentsChain, StuffDocumentsChain } from "langchain/chains";
+import { del } from "@vercel/blob";
 
 export interface Transcript {
     name: string;
@@ -162,4 +163,22 @@ export async function embedDocumentChunks({
             .insert(transcript_chunks)
             .values({...newChunkObject, embedding });
     }
+}
+
+/**
+ * Delete Transcript from DB
+ * @param transcriptId ID of transcript to delete
+ */
+export async function deleteTranscript(transcriptId : string){
+    const deletedFiles = 
+        await   db
+        .delete(transcripts)
+        .where(eq(transcripts.id, transcriptId ))
+        .returning();
+    
+    //delete the file from Blob storage
+    if(deletedFiles[0]?.blobURL)
+        await del(deletedFiles[0].blobURL) 
+
+    return deletedFiles[0]?.name;
 }

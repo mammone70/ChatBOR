@@ -7,6 +7,7 @@ import { DeleteFileSchema } from "@/schemas";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
+import { put } from '@vercel/blob';
 
 // import { UploadFileSchema } from "@/schemas";
 
@@ -16,8 +17,9 @@ import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { ChatOpenAI } from "@langchain/openai";
 import { loadSummarizationChain } from "langchain/chains";
-
-import { formatTextForDatabase, generateOpenAIEmbedding } from "@/lib/embed";
+import { embedDocumentChunks } from "@/dao/transcripts";
+import { authenticatedAction } from "@/lib/safe-action";
+import { deleteFileUseCase } from "@/business/files";
 
 //llm
 const llm = new ChatOpenAI({
@@ -64,31 +66,25 @@ export const uploadFile = async (formData: FormData) => {
                 totalPages : splitDocs[0].metadata.pdf.totalPages,
             })
             .returning({ id : transcripts.id });
-        
-        for (const docChunk of splitDocs) {
-            //set chunk metadata
-            const newChunkObject = {
-            pageNumber : docChunk.metadata.loc.pageNumber,
-            fromLine : docChunk.metadata.loc.lines.from,
-            toLine : docChunk.metadata.loc.lines.to,
-            content : formatTextForDatabase(docChunk.pageContent), 
-            transcriptId : dbFile[0].id,
-            }
-        
-            //summarize chunk before for better embedding
-            const summary = await summarizer.invoke({
-            input_documents: [docChunk.pageContent],
-            });
-        
-            //Generate and set embedding
-            const embedding = await generateOpenAIEmbedding(docChunk.pageContent);
-        
-            //insert transcript chunk with embedding
-            await db
-                .insert(transcript_chunks)
-                .values({...newChunkObject, embedding });
-        }
 
+        //insert file into blob storage
+        const blob = await put(uploadFile.name, uploadFile, {
+            access: 'public',
+        });
+
+        /**
+         * Create database records for document chunks with
+         * generated embeddings.
+         * 
+         */
+        // embedDocumentChunks({
+        //     docChunks : splitDocs, 
+        //     mainDocId : dbFile[0].id,
+        //     summarizer : summarizer,
+        // });
+
+        //add document to message queue
+        
         revalidatePath("/files");
         return { success : `${uploadFile.name} stored and embeddedings generated!` };
     }
@@ -97,25 +93,33 @@ export const uploadFile = async (formData: FormData) => {
     }
 }
 
-export const deleteFile = async (values: z.infer<typeof DeleteFileSchema>) => {
-    const session = await auth();
-    if(!session){
-        return { error : "No session." };
-    }
+export const deleteFileServerAction 
+    =   authenticatedAction
+            .createServerAction()
+            .input(DeleteFileSchema)
+            .handler(async ({ctx, input}) => {
+                const deletedFileName = await deleteFileUseCase(input.id)
+                revalidatePath("/files");
+                return { success : `${deletedFileName} deleted!` };
+            })
+    
+    // const session = await auth();
+    // if(!session){
+    //     return { error : "No session." };
+    // }
 
-    const deleteId = values.id;
+    // const deleteId = values.id;
 
-    try {
-        const deletedFile = 
-            await   db
-            .delete(transcripts)
-            .where(eq(transcripts.id, deleteId ))
-            .returning();
+    // try {
+    //     const deletedFile = 
+    //         await   db
+    //         .delete(transcripts)
+    //         .where(eq(transcripts.id, deleteId ))
+    //         .returning();
 
-            revalidatePath("/files");
-            return { success : `${deletedFile[0].name} deleted!` };
-    }   
-    catch(error) {
-        return { error : error }
-    }
-}
+    //         revalidatePath("/files");
+    //         return { success : `${deletedFile[0].name} deleted!` };
+    // }   
+    // catch(error) {
+    //     return { error : error }
+    // }

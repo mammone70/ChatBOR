@@ -1,7 +1,7 @@
 "use server";
 
-import { getUserByEmail } from "@/data/user";
-import {getVerificationTokenByToken } from "@/data/verification-token";
+import { getUserByEmail } from "@/dao/user";
+import {getVerificationTokenByToken } from "@/dao/verification-token";
 import { db } from "@/drizzle/db";
 import { users, verificationTokens } from "@/drizzle/schema";
 import { and, eq } from "drizzle-orm";

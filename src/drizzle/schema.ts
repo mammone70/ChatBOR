@@ -26,6 +26,7 @@ export const transcripts= pgTable('transcripts',
             .$defaultFn(() => randomUUID()),
         name: text('name').notNull(),
         totalPages: integer('total_pages'),
+        blobURL: text('blobURL'),
     },
 );
 

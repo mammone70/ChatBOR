@@ -1,6 +1,6 @@
-import { getPasswordResetTokenByEmail } from "@/data/password-reset-token";
-import { getVerificationTokenByEmail } from "@/data/verification-token";
-import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
+import { getPasswordResetTokenByEmail } from "@/dao/password-reset-token";
+import { getVerificationTokenByEmail } from "@/dao/verification-token";
+import { getTwoFactorTokenByEmail } from "@/dao/two-factor-token";
 
 import { db } from "@/drizzle/db";
 

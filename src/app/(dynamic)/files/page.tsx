@@ -1,4 +1,4 @@
-import FileBrowser from "@/components/files/file-browser"
+import FileBrowser from "@/app/(dynamic)/files/components/file-browser"
 
 function FilePage() {
     return (

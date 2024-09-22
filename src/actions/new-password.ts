@@ -1,6 +1,6 @@
 "use server";
-import { getPasswordResetTokenByToken } from "@/data/password-reset-token";
-import { getUserByEmail } from "@/data/user";
+import { getPasswordResetTokenByToken } from "@/dao/password-reset-token";
+import { getUserByEmail } from "@/dao/user";
 import { NewPasswordSchema } from "@/schemas";
 import * as z from "zod";
 import bcrypt from "bcryptjs";

@@ -1,5 +1,5 @@
-import { Transcript } from "@/data/transcripts"
-import PDFIcon from "../icons/pdf-icon"
+import { Transcript } from "@/dao/transcripts"
+import PDFIcon from "../../../../components/icons/pdf-icon"
 
 import FileContextMenu from "./file-context-menu"
 
@@ -17,7 +17,7 @@ function FileList(props : FileListProps) {
           {
             props.files.map(
               (file, index) => (
-                <div key={file.id}>
+                <>
                   <FileContextMenu 
                     className={`px-8 py-2 truncate${index % 2 === 0 ? " bg-muted" : ""}`}
                     tooltip={file.name}
@@ -28,37 +28,12 @@ function FileList(props : FileListProps) {
     
                   <FileContextMenu fileId={file.id} className={`px-8 py-2${index % 2 === 0 ? " bg-muted" : ""}`}><PDFIcon></PDFIcon></FileContextMenu>
                   <FileContextMenu fileId={file.id} className={`px-8 py-2${index % 2 === 0 ? " bg-muted" : ""}`}>{file.totalPages ? file.totalPages : 0}</FileContextMenu>
-                </div>
+                </>
               )
             )
           }
       </div>
     </>
-    // <Table>
-    //   <TableCaption>All of your transcripts</TableCaption>
-    //   <TableHeader>
-    //     <TableRow>
-    //       <TableHead>Name</TableHead>
-    //       <TableHead>Type</TableHead>
-    //       <TableHead>Pages</TableHead>
-    //     </TableRow>
-    //   </TableHeader>
-    //   <TableBody>
-    //     {
-    //       props.files.map(
-    //         (file) => (
-    //             <TableRow key={file.id}>
-    //               <FileContextMenu>
-    //                 <TableCell>{file.name}</TableCell>
-    //                 <TableCell><PDFIcon></PDFIcon></TableCell>
-    //                 <TableCell>{file.totalPages ? file.totalPages : 0}</TableCell>
-    //               </FileContextMenu>
-    //             </TableRow>
-    //         )
-    //       )
-    //     }
-    //   </TableBody>
-    // </Table>
 
   )
 }

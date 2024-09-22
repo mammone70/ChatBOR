@@ -4,7 +4,7 @@ import { db } from "@/drizzle/db";
 import authConfig from "@/auth.config";
 import { eq } from "drizzle-orm";
 import { users } from "@/drizzle/schema";
-import { getUserById } from "@/data/user";
+import { getUserById } from "@/dao/user";
 
 export type ExtendedUser = DefaultSession["user"] & {
   userRole: "USER" | "ADMIN",

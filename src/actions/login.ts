@@ -5,14 +5,14 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { LoginSchema } from "@/schemas";
 import { AuthError } from "next-auth";
 
-import { getUserByEmail } from "@/data/user";
+import { getUserByEmail } from "@/dao/user";
 // import { generateTwoFactorToken, generateVerificationToken } from "@/lib/tokens";
 
 import * as z from "zod";
 import { sendTwoFactorTokenEmail, sendVerificationEmail } from "@/lib/mail";
-import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
+import { getTwoFactorTokenByEmail } from "@/dao/two-factor-token";
 import { db } from "@/drizzle/db";
-import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+import { getTwoFactorConfirmationByUserId } from "@/dao/two-factor-confirmation";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
     const validateFields = LoginSchema.safeParse(values);

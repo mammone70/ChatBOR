@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteFile } from "@/actions/file-actions";
+import { deleteFileServerAction } from "@/app/(dynamic)/files/actions";
 import {
     ContextMenu,
     ContextMenuContent,
@@ -22,7 +22,7 @@ import { FileDown, Loader2, Trash2 } from "lucide-react"
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../../../components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 
@@ -45,11 +45,11 @@ function FileContextMenu(props : FileContextMenuProps) {
 
     async function onSubmit(values: z.infer<typeof DeleteFileSchema>) {
         try {
-            const deleteFileStatus = await deleteFile(values);
+            const [data, error] = await deleteFileServerAction(values);
 
             toast({
                 title: "File Deleted",
-                description: deleteFileStatus.success,
+                description: data?.success,
             });
           } catch (err) {
             console.log(err);

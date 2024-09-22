@@ -1,6 +1,6 @@
 "use server";
 
-import { getUserByEmail } from "@/data/user";
+import { getUserByEmail } from "@/dao/user";
 import { sendPasswordResetEmail } from "@/lib/mail";
 import { generatePasswordResetToken } from "@/lib/tokens";
 import { ResetSchema } from "@/schemas";

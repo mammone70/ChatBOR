@@ -26,10 +26,10 @@ import { Loader2 } from "lucide-react";
 
 import { FilePlus } from "lucide-react"
 import { useState } from "react";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../../../../components/ui/use-toast";
 
 import { UploadFileSchema } from "@/schemas";
-import { uploadFile } from "@/actions/file-actions";
+import { uploadFile } from "@/app/(dynamic)/files/actions";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

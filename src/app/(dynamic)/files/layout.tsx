@@ -1,4 +1,4 @@
-import FilesSideNav from "@/components/files/files-side-nav";
+import FilesSideNav from "@/app/(dynamic)/files/components/files-side-nav";
 
 export default function FilesLayout({
   children,
