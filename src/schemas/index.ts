@@ -48,13 +48,16 @@ export const ChatSchema = z.object({
     //     .max(parseInt(process.env.MAX_CHAT_MESSAGE_SIZE || DEFAULT_CHAT_MESSAGE_SIZE), {
     //         message: `Chat conversation must not be longer than ${process.env.MAX_CHAT_MESSAGE_SIZE}`,
     //     }),
-});
+})
 
 export const UploadFileSchema = z.object({
     // title: z.string().min(1).max(200),
-    files: z
-      .custom<FileList>((val) => val instanceof FileList, "Required")
-      .refine((files) => files.length > 0, `Required`),
+    file: z
+        .instanceof(File)
+        .refine(
+            (file) => file.size > 0 && file.size < 1000000,
+            "File must be less than 1 MB"
+        )
 });
 
 export const DeleteFileSchema = z.object({

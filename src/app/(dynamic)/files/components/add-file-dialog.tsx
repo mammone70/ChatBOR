@@ -28,15 +28,19 @@ import { FilePlus } from "lucide-react"
 import { useState } from "react";
 import { useToast } from "../../../../components/ui/use-toast";
 
-import { UploadFileSchema } from "@/schemas";
-import { uploadFile } from "@/app/(dynamic)/files/actions";
+import {  
+  UploadFileSchema } from "@/schemas";
+import { uploadFileServerAction } from "@/app/(dynamic)/files/actions";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { useFormState } from "react-dom";
 
 export function AddFileDialog() {
+  const [[data, error], submitAction, isPending] = useFormState(uploadFileServerAction, [null, null]); 
+
   const [isFileDialogOpen, setIsFileDialogOpen] = useState(false);
 
   const { toast } = useToast()
@@ -44,23 +48,25 @@ export function AddFileDialog() {
   const form = useForm<z.infer<typeof UploadFileSchema>>({
     resolver: zodResolver(UploadFileSchema),
     defaultValues: {
-      files: undefined,
+      file: undefined,
     },
   });
 
-  const fileRef = form.register("files");
+  const fileRef = form.register("file");
 
   async function onSubmit(values: z.infer<typeof UploadFileSchema>) {
-    
-    const formData = new FormData();
-    // formData.append("title", values.title);
+    console.log(values);
+    const fileList = {"files" : [{file : File}]};
+    // // formData.append("title", values.title);
 
-    Array.from(values.files).forEach((file) => {
-      formData.append("files", file);
-    });
+    // Array.from(values.files).forEach((file) => {
+    //   fileList["files"].push({"file": file});
+    // });
 
+    // console.log(formData);
     try {
-      await uploadFile(formData);
+      // await uploadFileServerAction(formData);
+      // const [data, error] = await uploadFileServerAction(fileList);
       form.reset();
       setIsFileDialogOpen(false);
 
@@ -97,8 +103,9 @@ export function AddFileDialog() {
           <div className="grid flex-1 gap-2">
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                  {/* <FormField
+                {/* <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8"> */}
+                <form action={submitAction} className="space-y-8">
+                {/* <FormField
                     control={form.control}
                     name="title"
                     render={({ field }) => (
@@ -114,7 +121,7 @@ export function AddFileDialog() {
 
                   <FormField
                     control={form.control}
-                    name="files"
+                    name="file"
                     render={() => (
                       <FormItem>
                         <FormControl>

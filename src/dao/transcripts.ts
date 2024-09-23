@@ -13,7 +13,7 @@ import {
 import type { BaseLanguageModelInterface } from "@langchain/core/language_models/base";
 import { Document } from "langchain/document";
 import { MapReduceDocumentsChain, RefineDocumentsChain, StuffDocumentsChain } from "langchain/chains";
-import { del } from "@vercel/blob";
+import { del, put } from "@vercel/blob";
 
 export interface Transcript {
     name: string;
@@ -166,7 +166,42 @@ export async function embedDocumentChunks({
 }
 
 /**
- * Delete Transcript from DB
+ * Store File in Blob storage and metadata in DB
+ * @param file File object to store
+ */
+export async function storeFile(file : File){
+    //TODO could abstract blob, metadata, and embedding storage to decouple
+    //implementations from one another
+
+    //insert file into DB
+    const dbFile = 
+        await db
+        .insert(transcripts)
+        .values({ 
+            name : file.name, 
+        })
+        .returning({ id : transcripts.id });
+
+    
+    //insert file into blob storage
+    const blob = await put(file.name, file, {
+        access: 'public',
+    });
+
+    //Queue file to be chunked and embedded
+    fetch(
+        'http://localhost:3001', //TODO env variable
+        {
+            //TODO Auth Header
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => console.log(`File Queued: ${data}`));
+
+}
+
+/**
+ * Delete Transcript from DB and Blob storage
  * @param transcriptId ID of transcript to delete
  */
 export async function deleteTranscript(transcriptId : string){
