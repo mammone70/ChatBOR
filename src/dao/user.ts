@@ -22,9 +22,10 @@ export const getUserById = async (id: string) => {
             await db
                 .select()
                 .from(users)
-                .where(eq(users.id, id));
+                .where(eq(users.id, id))
+                .limit(1);
 
-        return user;
+        return user ? user[0] : null;
     } catch {
         return null;
     }

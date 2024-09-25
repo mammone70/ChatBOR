@@ -1,10 +1,10 @@
-import { Transcript } from "@/dao/documents"
+import { Document } from "@/dao/documents"
 import PDFIcon from "../../../../components/icons/pdf-icon"
 
 import FileContextMenu from "./file-context-menu"
 
 interface FileListProps {
-  files : Transcript[]
+  files : Document[]
 }
 
 function FileList(props : FileListProps) {
