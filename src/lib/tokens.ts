@@ -6,7 +6,7 @@ import { db } from "@/drizzle/db";
 
 import { v4 as uuidv4 } from "uuid";
 import crypto from "crypto";
-import { verificationTokens } from "@/drizzle/schema";
+import { verificationTokens } from "@/drizzle/schemas/auth/verificationTokens";
 import { eq } from "drizzle-orm";
 
 export const generateTwoFactorToken = async (email: string) => {

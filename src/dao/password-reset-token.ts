@@ -11,7 +11,7 @@ export const getPasswordResetTokenByToken = async (token: string) => {
                 .where(eq(passwordResetTokens.token, token))
                 .limit(1);
 
-       return resetToken[0];
+       return resetToken ? resetToken[0] : null;
     } catch {
         return null;
     }
@@ -25,7 +25,7 @@ export const getPasswordResetTokenByEmail = async (email: string) => {
                 .from(passwordResetTokens)
                 .where(eq(passwordResetTokens.identifier, email));
 
-       return passwordResetToken;
+            return passwordResetToken ? passwordResetToken[0] : null;
     } catch {
         return null;
     }

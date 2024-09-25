@@ -25,7 +25,7 @@ export const getTwoFactorTokenByEmail = async (email: string) =>{
                 .from(twoFactorTokens)
                 .where(eq(twoFactorTokens.identifier, email))
                 .limit(1);
-       return twoFactorToken;
+       return twoFactorToken ? twoFactorToken[0] : null;
     } catch {
         return null;
     }
