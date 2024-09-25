@@ -1,4 +1,4 @@
-import TranscriptExcerpts from "@/components/chat/transcript-excerpts";
+import DocumentExcerpts from "@/app/(dynamic)/chat/_components/document-excerpts";
 
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
@@ -10,10 +10,10 @@ export default async function excerptsPage() {
     }
 
     return (
-        <TranscriptExcerpts 
+        <DocumentExcerpts 
           defaultLayout={[650,650]}
         >
-        </TranscriptExcerpts>
+        </DocumentExcerpts>
     )
   }
   

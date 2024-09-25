@@ -1,6 +1,5 @@
 'use server'
 
-import { semanticSearchTranscripts } from "@/dao/documents";
 import { ChatSchema } from "@/schemas";
 import * as z from "zod";
 

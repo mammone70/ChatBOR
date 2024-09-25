@@ -26,7 +26,7 @@ function ExcerptListItem(props : ExcerptListItemProps) {
             <div className="flex w-full flex-col gap-1">
                 <div className="flex items-center gap-2">
                     <div className="font-semibold">
-                        {props.excerpt.transcriptName}
+                        {props.excerpt.documentName}
                     </div>
                 </div>
             </div>

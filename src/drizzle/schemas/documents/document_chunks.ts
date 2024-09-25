@@ -29,9 +29,9 @@ export const document_chunks = pgTable('document_chunks',
     }),
 );
 
-//transcript chunks to transctripts, many to one
+//document chunks to transctripts, many to one
 export const documentChunkRelations = relations(document_chunks, ({ one }) => ({
-    transcripts: one(documents, {
+    documents: one(documents, {
       fields: [document_chunks.documentId],
       references: [documents.id],
     }),

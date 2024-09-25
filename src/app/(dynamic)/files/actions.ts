@@ -1,23 +1,10 @@
 'use server';
 
-import { auth } from "@/auth";
-import { db } from "@/drizzle/db";
-import { transcript_chunks, transcripts } from "@/drizzle/schema";
 import { DeleteFileSchema, UploadFileSchema } from "@/schemas";
-import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-import { put } from '@vercel/blob';
-
-// import { UploadFileSchema } from "@/schemas";
-
-import * as z from "zod";
-
-import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
-import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { ChatOpenAI } from "@langchain/openai";
 import { loadSummarizationChain } from "langchain/chains";
-import { embedDocumentChunks } from "@/dao/documents";
 import { authenticatedAction } from "@/lib/safe-action";
 import { deleteFileUseCase, uploadFileUseCase } from "@/business/files";
 

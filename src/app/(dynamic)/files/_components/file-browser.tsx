@@ -2,13 +2,13 @@ import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { LayoutGrid, List, Search } from "lucide-react"
-import FileCards from "@/app/(dynamic)/files/components/file-cards";
-import FileList from "@/app/(dynamic)/files/components/file-list";
+import FileCards from "@/app/(dynamic)/files/_components/file-cards";
+import FileList from "@/app/(dynamic)/files/_components/file-list";
 import { AddFileDialog } from "./add-file-dialog";
-import { getTranscripts, Transcript } from "@/dao/documents";
+import { getDocuments, Document } from "@/dao/documents";
 
 async function FileBrowser() {
-    const files : Transcript[] = await getTranscripts();
+    const files : Document[] = await getDocuments();
 
     return (
         <>

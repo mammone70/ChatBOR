@@ -15,9 +15,9 @@ export const documents = pgTable('documents',
     },
 );
 
-//transcripts to transcript_chunks one-to-many relationship
+//documents to document_chunks one-to-many relationship
 export const documentRelations = relations(documents, 
     ({ many }) => ({
-        transcript_chunks: many(document_chunks),
+        document_chunks: many(document_chunks),
     })
 );

@@ -5,13 +5,13 @@ import { eq } from "drizzle-orm";
 export const getPasswordResetTokenByToken = async (token: string) => {
     try {
         const resetToken = 
-        await  db
-            .select()
-            .from(passwordResetTokens)
-            .where(eq(passwordResetTokens.token, token));
+            await  db
+                .select()
+                .from(passwordResetTokens)
+                .where(eq(passwordResetTokens.token, token))
+                .limit(1);
 
-
-       return resetToken;
+       return resetToken[0];
     } catch {
         return null;
     }

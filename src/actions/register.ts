@@ -8,7 +8,7 @@ import { db } from "@/drizzle/db";
 import { getUserByEmail } from "@/dao/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
-import { users } from "@/drizzle/schemas/auth";
+import { users } from "@/drizzle/schemas/auth/users";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
     const validateFields = RegisterSchema.safeParse(values);

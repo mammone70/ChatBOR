@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import { db } from './db'
-import { transcripts, transcript_chunks } from './schema'
+import { document_chunks } from "@/drizzle/schemas/documents/document_chunks";
+import { documents } from "@/drizzle/schemas/documents/documents";
 import path from 'path';
 
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
@@ -10,7 +11,6 @@ import { loadSummarizationChain } from "langchain/chains";
 
 import { 
   formatTextForDatabase, 
-  formatTextForEmbedding, 
   generateOpenAIEmbedding 
 } from '../lib/embed';
 import { ChatOpenAI } from '@langchain/openai';
@@ -39,7 +39,7 @@ const summarizer = loadSummarizationChain(llm)
 
 async function main() {
   try {
-    const transcript = await db.query.transcripts.findFirst({
+    const document = await db.query.documents.findFirst({
     })
 
     // if (transcript) {
@@ -47,7 +47,7 @@ async function main() {
     //   return
     // }
   } catch (error) {
-    console.error('Error checking if Transcripts exist in the database.')
+    console.error('Error checking if Documents exist in the database.')
     throw error
   }
 
@@ -88,9 +88,9 @@ async function main() {
   for(const transcriptObject of transcriptObjects) {
     const dbTranscript = 
       await db
-      .insert(transcripts)
+      .insert(documents)
       .values({ name : transcriptObject.name })
-      .returning({ id : transcripts.id })
+      .returning({ id : documents.id })
     
     transcriptObject.id = dbTranscript[0].id;
   }
@@ -111,7 +111,7 @@ async function main() {
       fromLine : docChunk.metadata.loc.lines.from,
       toLine : docChunk.metadata.loc.lines.to,
       content : formatTextForDatabase(docChunk.pageContent), 
-      transcriptId : transcriptObject.id,
+      documentId : transcriptObject.id,
     }
 
     //summarize chunk before for better embedding
@@ -125,7 +125,7 @@ async function main() {
   
     //insert transcript chunk with embedding
     await db
-          .insert(transcript_chunks)
+          .insert(document_chunks)
           .values({...newChunkObject, embedding })
   }
 

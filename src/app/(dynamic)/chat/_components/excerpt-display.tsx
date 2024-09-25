@@ -2,7 +2,7 @@ import { ExcerptProps } from "@/app/providers";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CopyIcon } from "@radix-ui/react-icons";
-import { Button } from "../ui/button";
+import { Button } from "../../../../components/ui/button";
 
 interface ExcerptDisplayProps {
   excerpt: ExcerptProps | null
@@ -14,7 +14,7 @@ export function ExcerptDisplay(props : ExcerptDisplayProps) {
         <div className="flex h-full flex-col">
           <div className="flex items-center p-2">              
             <h1 className="text-xl font-bold">
-              Selected Transcript Excerpt
+              Selected Document Excerpt
             </h1>
           </div>
           <Separator />
@@ -22,7 +22,7 @@ export function ExcerptDisplay(props : ExcerptDisplayProps) {
             <div className="flex flex-1 flex-col p-4">                
               <div className="flex w-full flex-col gap-4 bg-muted rounded px-1">
                 <div className="flex items-center font-bold">
-                  {props.excerpt.transcriptName}
+                  {props.excerpt.documentName}
                 </div>
               </div>
               <div className="flex items-center gap-2 bg-muted rounded px-1">
@@ -31,7 +31,7 @@ export function ExcerptDisplay(props : ExcerptDisplayProps) {
                   <Button size="icon" className="mx-2 h-5 w-5" onClick={
                             async (event) => {
                                 await navigator.clipboard.writeText(
-                                                `${props?.excerpt?.transcriptName}\n` +
+                                                `${props?.excerpt?.documentName}\n` +
                                                 `Page ${props?.excerpt?.pageNumber}\n` +
                                                 `Lines ${props?.excerpt?.fromLine} to ${props?.excerpt?.toLine}\n\n` +
                                                 `${props?.excerpt?.content}\n`

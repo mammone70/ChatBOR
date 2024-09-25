@@ -13,7 +13,7 @@ export const getVerificationTokenByEmail = async (
                 .where(eq(verificationTokens.identifier, email))
                 .limit(1);
 
-       return verificationToken; 
+            return verificationToken ? verificationToken[0] : null; 
     } catch {
         return null;
     }
@@ -31,7 +31,7 @@ export const getVerificationTokenByToken = async (
             .where(eq(verificationTokens.token, token))
             .limit(1);
 
-       return verificationToken; 
+       return verificationToken ? verificationToken[0] : null; 
     } catch {
         return null;
     }

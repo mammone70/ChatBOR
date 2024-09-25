@@ -4,8 +4,8 @@ import { SessionProvider } from 'next-auth/react';
 import { createContext, Dispatch, SetStateAction, useState } from 'react';
 
 export interface ExcerptProps {
-    transcriptId: string | null,
-    transcriptName: string | null,
+    documentId: string | null,
+    documentName: string | null,
     chunkId: string | null,
     pageNumber: number,
     fromLine: number,

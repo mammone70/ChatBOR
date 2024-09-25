@@ -39,7 +39,7 @@ function ExcerptResultsDialog(props : ExcerptResultsDialogProps) {
                                     props.excerpts.map(
                                         (excerpt) => {
                                             return (
-                                                `${excerpt.transcriptName}\n` +
+                                                `${excerpt.documentName}\n` +
                                                 `Page ${excerpt.pageNumber}\n` +
                                                 `Lines ${excerpt.fromLine} to ${excerpt.toLine}\n` +
                                                 `${excerpt.content}\n`
@@ -67,7 +67,7 @@ function ExcerptResultsDialog(props : ExcerptResultsDialogProps) {
                                     <div className="flex w-full flex-col gap-1">
                                         <div className="flex items-center gap-2">
                                             <div className="font-semibold">
-                                                {excerpt.transcriptName}
+                                                {excerpt.documentName}
                                             </div>
                                         </div>
                                     </div>

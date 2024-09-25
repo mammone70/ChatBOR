@@ -8,7 +8,7 @@ import {
 export function getVectorDB(){
     const originalConfig = {
         pool: pool,
-        tableName: "transcript_chunks",
+        tableName: "document_chunks",
         columns: {
             idColumnName: "id",
             vectorColumnName: "embedding",

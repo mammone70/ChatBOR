@@ -63,7 +63,7 @@ export async function multiQueryRetrievedocuments(
     }
 }
 
-export async function semanticSearchdocuments(
+export async function semanticSearchDocuments(
     query : string,
     minSimilarity : number = .5,
     maxResults : number = 0

@@ -1,6 +1,6 @@
 'use server'
 
-import { semanticSearchTranscripts } from "@/dao/documents";
+import { semanticSearchDocuments } from "@/dao/documents";
 import { ChatSchema } from "@/schemas";
 import * as z from "zod";
 
@@ -13,11 +13,11 @@ export const searchEmbeddings = async (values: z.infer<typeof ChatSchema>) => {
 
     const { message } = validateFields.data;
 
-    const transcriptChunks = await semanticSearchTranscripts(message);
+    const documentChunks = await semanticSearchDocuments(message);
     
     return { 
         success: "Message received!",
-        chunks : transcriptChunks,
+        chunks : documentChunks,
     }
 
 }

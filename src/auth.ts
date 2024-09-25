@@ -3,7 +3,7 @@ import NextAuth, { DefaultSession } from "next-auth";
 import { db } from "@/drizzle/db";
 import authConfig from "@/auth.config";
 import { eq } from "drizzle-orm";
-import { users } from "@/drizzle/schema";
+import { users } from "@/drizzle/schemas/auth/users";
 import { getUserById } from "@/dao/user";
 
 export type ExtendedUser = DefaultSession["user"] & {

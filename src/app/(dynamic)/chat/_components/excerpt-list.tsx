@@ -1,7 +1,7 @@
 "use client"
 
 import { ExcerptProps } from '@/app/providers';
-import { ScrollArea } from '../ui/scroll-area';
+import { ScrollArea } from '../../../../components/ui/scroll-area';
 import ExcerptListItem from './excerpt-list-item';
 import { Dispatch, SetStateAction } from 'react';
 

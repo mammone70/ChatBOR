@@ -1,4 +1,4 @@
-import ChatInteraction from "@/components/chat/chat-interaction";
+import ChatInteraction from "@/app/(dynamic)/chat/_components/chat-interaction";
 
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";

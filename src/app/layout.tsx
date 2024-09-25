@@ -17,7 +17,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: "Chat BOR",
-  description: "Chat with BOR Transcripts",
+  description: "Chat with BOR Documents",
 };
 
 export default function RootLayout({

@@ -23,9 +23,9 @@ import * as z from "zod";
 import { createContext, useContext, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { readStreamableValue } from "ai/rsc"
-import { StatusButton } from "../status-button"
+import { StatusButton } from "../../../../components/status-button"
 import { ChatContext } from "@/app/providers"
-import ChatMessage from "@/components/chat/chat-message"
+import ChatMessage from "@/app/(dynamic)/chat/_components/chat-message"
 
 export default function ChatInteraction() {
     // const [isPending, startTransition] = useTransition();

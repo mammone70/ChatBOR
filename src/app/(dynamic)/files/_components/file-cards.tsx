@@ -1,6 +1,6 @@
 import { Transcript } from "@/dao/documents"
-import FileCard from "@/app/(dynamic)/files/components/file-card"
-import FileContextMenu from "@/app/(dynamic)/files/components/file-context-menu"
+import FileCard from "@/app/(dynamic)/files/_components/file-card"
+import FileContextMenu from "@/app/(dynamic)/files/_components/file-context-menu"
 
 interface FileCardsProps {
   files : Transcript[]

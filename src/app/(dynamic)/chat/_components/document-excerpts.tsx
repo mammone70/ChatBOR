@@ -22,26 +22,26 @@ import { useForm } from "react-hook-form"
 import * as z from "zod";
 import { ChatSchema } from "@/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../../components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../../../components/ui/tooltip"
 import { Button } from "@/components/ui/button"
 import { searchEmbeddings } from "@/actions/search-embeddings"
-import { StatusButton } from "../status-button"
+import { StatusButton } from "../../../../components/status-button"
 import { ExcerptsContext } from "@/app/providers"
 import ExcerptResultsPopover from "./excerpt-results-dialog";
 
-interface TranscriptExcerptProps {
+interface DocumentExcerptProps {
     defaultLayout: number[] | undefined
     defaultCollapsed?: boolean
     navCollapsedSize?: number
   }
   
-function TranscriptExcerpts({
+function DocumentExcerpts({
     defaultLayout = [650, 650],
     defaultCollapsed = false,
     navCollapsedSize = 0,
-} : TranscriptExcerptProps) {
+} : DocumentExcerptProps) {
 
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
@@ -96,7 +96,7 @@ function TranscriptExcerpts({
       <ResizablePanel defaultSize={defaultLayout[0]} minSize={30}>
         <Tabs defaultValue="all">
           <div className="flex items-center px-4 py-2">
-            <h1 className="text-xl font-bold">Transcript Excerpts</h1>
+            <h1 className="text-xl font-bold">Document Excerpts</h1>
           </div>
           <Separator />
           <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -186,4 +186,4 @@ function TranscriptExcerpts({
   )
 }
 
-export default TranscriptExcerpts
+export default DocumentExcerpts

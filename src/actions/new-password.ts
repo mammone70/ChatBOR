@@ -6,7 +6,8 @@ import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { db } from "@/drizzle/db";
 import { eq } from "drizzle-orm";
-import { passwordResetTokens, users } from "@/drizzle/schemas/auth";
+import { users } from "@/drizzle/schemas/auth/users";
+import { passwordResetTokens } from "@/drizzle/schemas/auth/passwordResetTokens";
 
 export const newPassword = async (
     values : z.infer<typeof NewPasswordSchema>,
