@@ -1,5 +1,5 @@
 import { db } from "@/drizzle/db";
-import { twoFactorConfirmations } from "@/drizzle/schema";
+import { twoFactorConfirmations } from "@/drizzle/schemas/auth/twoFactorConfirmations";
 import { eq } from "drizzle-orm";
 
 export const getTwoFactorConfirmationByUserId = async (
@@ -8,11 +8,10 @@ export const getTwoFactorConfirmationByUserId = async (
     try {
         const twoFactorConfirmation = 
         await  db
-            .query
-            .twoFactorConfirmations
-            .findFirst({
-                where: eq(twoFactorConfirmations.userId, userId)
-            });
+            .select()
+            .from(twoFactorConfirmations)
+            .where(eq(twoFactorConfirmations.userId, userId))
+            .limit(1);
 
 
        return twoFactorConfirmation;

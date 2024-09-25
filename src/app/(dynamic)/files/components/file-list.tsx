@@ -1,4 +1,4 @@
-import { Transcript } from "@/dao/transcripts"
+import { Transcript } from "@/dao/documents"
 import PDFIcon from "../../../../components/icons/pdf-icon"
 
 import FileContextMenu from "./file-context-menu"

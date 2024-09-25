@@ -17,7 +17,7 @@ import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { ChatOpenAI } from "@langchain/openai";
 import { loadSummarizationChain } from "langchain/chains";
-import { embedDocumentChunks } from "@/dao/transcripts";
+import { embedDocumentChunks } from "@/dao/documents";
 import { authenticatedAction } from "@/lib/safe-action";
 import { deleteFileUseCase, uploadFileUseCase } from "@/business/files";
 

@@ -5,7 +5,7 @@ import { LayoutGrid, List, Search } from "lucide-react"
 import FileCards from "@/app/(dynamic)/files/components/file-cards";
 import FileList from "@/app/(dynamic)/files/components/file-list";
 import { AddFileDialog } from "./add-file-dialog";
-import { getTranscripts, Transcript } from "@/dao/transcripts";
+import { getTranscripts, Transcript } from "@/dao/documents";
 
 async function FileBrowser() {
     const files : Transcript[] = await getTranscripts();

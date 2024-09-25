@@ -1,4 +1,4 @@
-import { Transcript } from "@/dao/transcripts"
+import { Transcript } from "@/dao/documents"
 import FileCard from "@/app/(dynamic)/files/components/file-card"
 import FileContextMenu from "@/app/(dynamic)/files/components/file-context-menu"
 

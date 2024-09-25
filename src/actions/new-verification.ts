@@ -3,7 +3,7 @@
 import { getUserByEmail } from "@/dao/user";
 import {getVerificationTokenByToken } from "@/dao/verification-token";
 import { db } from "@/drizzle/db";
-import { users, verificationTokens } from "@/drizzle/schema";
+import { users, verificationTokens } from "@/drizzle/schemas/auth";
 import { and, eq } from "drizzle-orm";
 
 export const newVerification = async (token: string) => {

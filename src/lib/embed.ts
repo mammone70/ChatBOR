@@ -1,4 +1,3 @@
-import { OllamaEmbeddings} from "@langchain/community/embeddings/ollama";
 import { OpenAIEmbeddings } from "@langchain/openai";
 
 /***
@@ -24,16 +23,16 @@ export function formatTextForDatabase(_input: string) {
             .join('\n');
 }
 
-export async function generateOllamaEmbedding(_input: string) {
-    const embedder = new OllamaEmbeddings({
-        model: 'nomic-embed-text:latest',
-        baseUrl: "http://localhost:11434",
-      });
+// export async function generateOllamaEmbedding(_input: string) {
+//     const embedder = new OllamaEmbeddings({
+//         model: 'nomic-embed-text:latest',
+//         baseUrl: "http://localhost:11434",
+//       });
       
-    const formattedInput = formatTextForEmbedding(_input);
-    const embedding = await embedder.embedQuery(formattedInput);
-    return embedding;
-}
+//     const formattedInput = formatTextForEmbedding(_input);
+//     const embedding = await embedder.embedQuery(formattedInput);
+//     return embedding;
+// }
 
 export async function generateOpenAIEmbedding(_input: string) {
     const embedder = new OpenAIEmbeddings({

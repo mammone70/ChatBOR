@@ -1,4 +1,4 @@
-import { Transcript } from "@/dao/transcripts"
+import { Transcript } from "@/dao/documents"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../../../components/ui/tooltip"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../../../components/ui/card"
 import PDFIcon from "../../../../components/icons/pdf-icon"

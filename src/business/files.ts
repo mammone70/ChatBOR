@@ -2,7 +2,7 @@
  * Business Logic Use Cases for Files
  */
 
-import { deleteTranscript, storeFile } from "@/dao/transcripts";
+import { deleteTranscript, storeFile } from "@/dao/documents";
 
 
 export async function uploadFileUseCase(file : File){
