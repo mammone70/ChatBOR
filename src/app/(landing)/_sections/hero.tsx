@@ -1,18 +1,10 @@
 import { LoginButton } from "@/components/auth/login-button";
 import { Button } from "@/components/ui/button";
 
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-
-export default async function Home() {
-  const session = await auth();
-  if (session) {
-    redirect("/files");
-  }
-
+export default function HeroSection() {
   return (
-    <section className="flex items-center justify-center bg-background h-[90vh]">
-      <div className="relative items-center w-full px-5 py-12 mx-auto lg:px-16 max-w-7xl md:px-12">
+    <section className="flex items-center justify-center bg-background h-[70vh]">
+      <div className="relative items-center w-full px-5 pt-12 mx-auto lg:px-16 max-w-7xl md:px-12">
         <div className="max-w-3xl mx-auto text-center">
           <div>
             <span className="w-auto px-6 py-3 rounded-full bg-secondary">
@@ -42,5 +34,5 @@ export default async function Home() {
         </div>
       </div>
     </section>
-  );
+  )
 }
