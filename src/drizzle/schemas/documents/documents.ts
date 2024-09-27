@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import { relations } from "drizzle-orm";
-import { integer, pgTable, text } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { document_chunks } from "@/drizzle/schemas/documents/document_chunks";
 
 export const documents = pgTable('documents', 
@@ -11,6 +11,7 @@ export const documents = pgTable('documents',
             .$defaultFn(() => randomUUID()),
         name: text('name').notNull(),
         totalPages: integer('total_pages'),
+        createdAt: timestamp('created_at').notNull().defaultNow(),
         blobURL: text('blobURL'),
     },
 );

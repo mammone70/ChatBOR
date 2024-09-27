@@ -20,6 +20,7 @@ export interface Document {
     name: string;
     id: string;
     totalPages: number | null;
+    createdAt: Date;
 }
 
 export async function multiQueryRetrievedocuments(

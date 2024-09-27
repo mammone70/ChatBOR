@@ -1,7 +1,8 @@
 import { Document } from "@/dao/documents"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../../../components/ui/tooltip"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../../../components/ui/card"
-import PDFIcon from "../../../../components/icons/pdf-icon"
+import PDFIcon from "@/components/icons/pdf-icon"
+import { formatRelative } from "date-fns";
 
 interface FileCardProps {
     file : Document
@@ -28,7 +29,7 @@ function FileCard(props : FileCardProps) {
                 <CardFooter className="flex flex-col">
                     <span className="text-primary">{props.file.totalPages ? props.file.totalPages : 0} pages</span>
                     <div className="text-xs text-gray-700">
-                        Uploaded *date* {/*{formatRelative(new Date(file.createdAt), new Date())} */}
+                        Uploaded {formatRelative(new Date(props.file.createdAt), new Date())}
                     </div>
                 </CardFooter>
             </Card>
