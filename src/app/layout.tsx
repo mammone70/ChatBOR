@@ -29,10 +29,11 @@ export default function RootLayout({
     <html lang="en">
       <body 
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          `min-h-screen font-sans antialiased`,
           fontSans.variable
         )}
       >
+        <div className="glow absolute -z-10 aspect-square w-full bg-gradient-to-br from-blue-600/15 to-green-500/15 blur-3xl filter" />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
