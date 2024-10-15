@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import { Inter as FontSans } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider";
 import Providers from "@/app/providers";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/header";
 
 import { Toaster } from "@/components/ui/toaster";
 
