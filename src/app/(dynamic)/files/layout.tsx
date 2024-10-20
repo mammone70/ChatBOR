@@ -8,7 +8,7 @@ export default function FilesLayout({
   return (
     <div className="flex">
         <FilesSideNav />
-        <div className="w-full bg-muted/40 p-4">{children}</div>
+        <div className="w-full p-4">{children}</div>
     </div>
   );
 }
