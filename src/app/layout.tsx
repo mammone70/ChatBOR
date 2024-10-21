@@ -7,8 +7,9 @@ import { Inter as FontSans } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider";
 import Providers from "@/app/providers";
 import Navbar from "@/components/header";
-
+import Background from "@/components/background"; 
 import { Toaster } from "@/components/ui/toaster";
+import BottomNav from "@/components/bottom-nav";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -33,7 +34,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <div className="glow absolute -z-10 aspect-square w-full bg-gradient-to-br from-blue-600/15 to-green-500/15 blur-3xl filter" />
+        <Background/>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -42,6 +43,7 @@ export default function RootLayout({
           <Providers>
             <Navbar/>
             {children}
+            <BottomNav/>
             <Toaster></Toaster>
           </Providers>
         </ThemeProvider>

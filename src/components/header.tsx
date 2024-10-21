@@ -23,9 +23,9 @@ export default async function Header() {
                             </div>
                             { session && 
                                 <div className="px-2">
-                                    <div>
+                                    {/* <div>
                                         <MenuIcon className="md:hidden"></MenuIcon>
-                                    </div>
+                                    </div> */}
                                     <div className="hidden md:block">
                                         <NavMenu></NavMenu>
                                     </div>

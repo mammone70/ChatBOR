@@ -13,9 +13,6 @@ import {
 import Link from "next/link"
 
 import { usePathname } from "next/navigation";
-import { MenuIcon } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { Button } from "./ui/button";
 
 const menuItems : {text: string, path: string}[] = [
     {
